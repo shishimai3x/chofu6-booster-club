@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chofu6 booster club | 一般社団法人調布六中サッカー部後援会</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      color: #1a1a2e;
+      background: #f8faff;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #0d2b5e 0%, #1a4fa0 60%, #2563c7 100%);
+      padding: 18px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    }
+
+    .logo-area {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-en {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .logo-ja {
+      font-size: 11px;
+      color: #a8c8ff;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    nav a {
+      color: #cde0ff;
+      text-decoration: none;
+      margin-left: 36px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: #fff; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(160deg, #0d2b5e 0%, #1a4fa0 45%, #1e6fc4 100%);
+      color: white;
+      text-align: center;
+      padding: 100px 40px 110px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: -80px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; right: -60px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 6px 20px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 28px;
+      color: #a8d4ff;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 span {
+      color: #7ec8ff;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #c0dcff;
+      max-width: 640px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #ffffff;
+      color: #1a4fa0;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 16px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #ffffff;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.5);
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: #fff;
+    }
+
+    /* ===== SECTION BASE ===== */
+    section {
+      padding: 90px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #1a4fa0;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: #0d2b5e;
+      margin-bottom: 20px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: #4a5568;
+      line-height: 1.9;
+      max-width: 700px;
+      margin-bottom: 48px;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, #1a4fa0, #7ec8ff, transparent);
+      margin: 0 60px;
+      opacity: 0.3;
+    }
+
+    /* ===== CORPORATE SECTION ===== */
+    .corporate-section {
+      background: #ffffff;
+    }
+
+    .corporate-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: #f0f6ff;
+      border-radius: 16px;
+      padding: 36px 28px;
+      border-top: 4px solid #1a4fa0;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(26,79,160,0.12);
+    }
+
+    .card-icon {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0d2b5e;
+      margin-bottom: 12px;
+    }
+
+    .card-text {
+      font-size: 14px;
+      color: #5a6a80;
+      line-height: 1.8;
+    }
+
+    /* ===== FLOW ===== */
+    .flow {
+      display: flex;
+      gap: 0;
+      align-items: stretch;
+      margin-top: 48px;
+    }
+
+    .flow-step {
+      flex: 1;
+      background: #eef4ff;
+      border-radius: 12px;
+      padding: 28px 24px;
+      position: relative;
+      text-align: center;
+    }
+
+    .flow-step + .flow-step {
+      margin-left: 24px;
+    }
+
+    .flow-step + .flow-step::before {
+      content: '→';
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #1a4fa0;
+    }
+
+    .flow-num {
+      width: 36px; height: 36px;
+      background: #1a4fa0;
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px;
+      margin: 0 auto 12px;
+    }
+
+    .flow-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0d2b5e;
+      margin-bottom: 8px;
+    }
+
+    .flow-text {
+      font-size: 12px;
+      color: #5a6a80;
+      line-height: 1.7;
+    }
+
+    /* ===== MEMBER SECTION ===== */
+    .member-section-wrapper {
+      background: linear-gradient(160deg, #0d2b5e 0%, #1a4fa0 100%);
+      padding: 2px 0;
+    }
+
+    .member-section {
+      color: white;
+    }
+
+    .member-section .section-label {
+      color: #7ec8ff;
+    }
+
+    .member-section .section-title {
+      color: #ffffff;
+    }
+
+    .member-section .section-desc {
+      color: #c0dcff;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .benefit-item {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 28px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: background 0.2s;
+    }
+
+    .benefit-item:hover {
+      background: rgba(255,255,255,0.13);
+    }
+
+    .benefit-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .benefit-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .benefit-text {
+      font-size: 13px;
+      color: #a8c8ff;
+      line-height: 1.7;
+    }
+
+    /* CTA in member section */
+    .member-cta {
+      text-align: center;
+      margin-top: 56px;
+    }
+
+    .member-cta p {
+      color: #c0dcff;
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #0d2b5e;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .about-text p {
+      font-size: 15px;
+      color: #4a5568;
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .stat-box {
+      background: #eef4ff;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 36px;
+      font-weight: 900;
+      color: #1a4fa0;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #5a6a80;
+    }
+
+    /* ===== CONTACT ===== */
+    .contact-wrapper {
+      background: #f0f6ff;
+      padding: 2px 0;
+    }
+
+    .contact-inner {
+      text-align: center;
+    }
+
+    .contact-inner .section-title {
+      font-size: 28px;
+    }
+
+    .contact-email {
+      display: inline-block;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a4fa0;
+      text-decoration: none;
+      background: #ffffff;
+      padding: 18px 48px;
+      border-radius: 50px;
+      border: 2px solid #1a4fa0;
+      margin: 24px 0;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .contact-email:hover {
+      background: #1a4fa0;
+      color: #ffffff;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .social-instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+    .social-facebook { background: #1877f2; color: white; }
+    .social-youtube { background: #ff0000; color: white; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #0d2b5e;
+      color: #a8c8ff;
+      text-align: center;
+      padding: 36px 60px;
+    }
+
+    footer .footer-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    footer .footer-ja {
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    footer .footer-copy {
+      font-size: 12px;
+      color: #6a8ab0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-area">
+      <div class="logo-en">chofu6 booster club</div>
+      <div class="logo-ja">一般社団法人 調布六中サッカー部後援会</div>
+    </div>
+    <nav>
+      <a href="#corporate">協賛企業の方へ</a>
+      <a href="#member">賛助会員の方へ</a>
+      <a href="#about">法人概要</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🔵 chofu6 booster club</div>
+    <h1>地域とともに、<br><span>子どもたちの未来を</span>支える。</h1>
+    <p>「個人掛け捨て型福利厚生サービス」を通じて、<br>
+    地域社会への貢献と持続可能な活動基盤づくりを目指しています。</p>
+    <div class="hero-buttons">
+      <a href="#corporate" class="btn-primary">協賛企業として参加する</a>
+      <a href="#member" class="btn-secondary">賛助会員として参加する</a>
+    </div>
+  </div>
+
+  <!-- CORPORATE SECTION -->
+  <div class="corporate-section" id="corporate">
+    <section>
+      <div class="section-label">For Corporate Sponsors</div>
+      <h2 class="section-title">協賛企業として、<br>私たちの活動に参画しませんか？</h2>
+      <p class="section-desc">
+        貴社の商品・サービスの割引提供という形で、当法人の個人賛助会員へのサービスに参画いただきます。
+        地域密着型の福利厚生サービスとして、企業ブランドの向上と社会貢献活動に繋がります。
+      </p>
+
+      <div class="corporate-cards">
+        <div class="card">
+          <div class="card-icon">🤝</div>
+          <div class="card-title">地域貢献のPR</div>
+          <p class="card-text">当法人の活動を通じ、地域社会への貢献企業として認知度を高めることができます。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📣</div>
+          <div class="card-title">会員への露出機会</div>
+          <p class="card-text">個人賛助会員に対して貴社のサービス・商品を直接PRできるチャネルとなります。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💼</div>
+          <div class="card-title">福利厚生パートナー</div>
+          <p class="card-text">「個人掛け捨て型福利厚生サービス」の提供企業として、社会的意義のある取り組みに参加できます。</p>
+        </div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-title">お問い合わせ</div>
+          <p class="flow-text">まずはメールにてご連絡ください</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-title">内容のご相談</div>
+          <p class="flow-text">提供サービス・割引内容のご相談</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-title">契約・掲載</div>
+          <p class="flow-text">合意後、会員向けサービスに掲載</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-title">活動スタート</div>
+          <p class="flow-text">会員への割引サービス提供開始</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MEMBER SECTION -->
+  <div class="member-section-wrapper" id="member">
+    <section class="member-section">
+      <div class="section-label">For Individual Members</div>
+      <h2 class="section-title">個人賛助会員として、<br>ご支援をお願いします。</h2>
+      <p class="section-desc">
+        当法人の活動費を工面するため、皆様からのご寄付をお願いしております。
+        ご支援いただいた会員の方には、様々な特典をご用意しています。
+      </p>
+
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <div class="benefit-icon">🏷️</div>
+          <div>
+            <div class="benefit-title">協賛企業からの割引サービス</div>
+            <p class="benefit-text">協賛いただいた企業の商品・サービスを会員限定の特別割引でご利用いただけます。</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">🎟️</div>
+          <div>
+            <div class="benefit-title">各種特別イベントへの参加権</div>
+            <p class="benefit-text">当法人が主催・協力する特別イベントへ優先的にご参加いただける権利をご提供します。</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">🛍️</div>
+          <div>
+            <div class="benefit-title">当社オリジナル商品の販売</div>
+            <p class="benefit-text">当法人オリジナルグッズや限定商品を会員向けに販売いたします。</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">📋</div>
+          <div>
+            <div class="benefit-title">特別情報のご提供</div>
+            <p class="benefit-text">会員限定の情報やニュースレターを定期的にお届けします。その他、様々な特典を随時追加予定です。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="member-cta">
+        <p>ご入会・ご寄付についてはお気軽にお問い合わせください。</p>
+        <a href="#contact" class="btn-primary">お問い合わせはこちら</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ABOUT SECTION -->
+  <div id="about">
+    <section>
+      <div class="section-label">About Us</div>
+      <div class="about-grid">
+        <div class="about-text">
+          <h3>調布六中サッカー部後援会について</h3>
+          <p>
+            一般社団法人調布六中サッカー部後援会（chofu6 booster club）は、
+            地域の子どもたちの健全な育成と、スポーツ活動の継続的な発展を支援するために設立された法人です。
+          </p>
+          <p>
+            「個人掛け捨て型福利厚生サービス」という独自のスキームにより、
+            会員の皆様と協賛企業、そして地域全体がともに価値を創出できる仕組みを構築しています。
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-box">
+            <div class="stat-num">🔵</div>
+            <div class="stat-label">chofu6<br>booster club</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="font-size:16px; padding-top:4px;">一般社団法人</div>
+            <div class="stat-label">調布六中<br>サッカー部後援会</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="font-size:14px; padding-top:4px;">福利厚生</div>
+            <div class="stat-label">個人掛け捨て型<br>サービス提供</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="font-size:14px; padding-top:4px;">地域密着</div>
+            <div class="stat-label">調布市を拠点に<br>活動中</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <div class="contact-wrapper" id="contact">
+    <section class="contact-inner">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">お問い合わせ</h2>
+      <p style="color:#4a5568; font-size:15px; margin-bottom:8px;">
+        協賛企業・賛助会員に関するお問い合わせは、以下のメールアドレスまでご連絡ください。
+      </p>
+      <a href="mailto:chofu6.booster.club@gmail.com" class="contact-email">
+        chofu6.booster.club@gmail.com
+      </a>
+      <p style="color:#888; font-size:13px; margin-top: 8px;">※ 通常2〜3営業日以内にご返信いたします。</p>
+
+      <div class="social-links">
+        <a href="https://www.instagram.com/chofu6_booster_club" target="_blank" class="social-btn social-instagram">
+          📷 Instagram
+        </a>
+        <a href="https://www.facebook.com/share/1UNtbMaQPu/" target="_blank" class="social-btn social-facebook">
+          👤 Facebook
+        </a>
+        <a href="https://www.youtube.com/@chofu6boosterclub" target="_blank" class="social-btn social-youtube">
+          ▶ YouTube
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">chofu6 booster club</div>
+    <div class="footer-ja">一般社団法人 調布六中サッカー部後援会</div>
+    <div class="footer-copy">© 2025 一般社団法人調布六中サッカー部後援会. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
