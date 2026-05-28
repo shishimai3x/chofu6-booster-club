@@ -206,27 +206,140 @@
   </div>
 </section>
 
-<!-- STAT BAR -->
-<div class="stat-bar">
-  <div class="stat-bar-inner">
-    <div class="stat-item">
-      <div class="stat-num">3<span>本柱</span></div>
-      <div class="stat-label">会員募集・物販・法人連携</div>
+
+<!-- NEWS -->
+<div style="background:#fff; border-top:1px solid #e8f0fc;" id="news">
+  <div style="max-width:1100px; margin:0 auto; padding:108px 64px;">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:52px;">
+      <div>
+        <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#1a4fa0; margin-bottom:16px; display:flex; align-items:center; gap:10px;">
+          <span style="display:block;width:20px;height:2px;background:#1a4fa0;"></span>News & Press Release
+        </div>
+        <h2 style="font-size:clamp(26px,3vw,40px); font-weight:900; line-height:1.2; color:#08152a; letter-spacing:-0.5px;">お知らせ</h2>
+      </div>
     </div>
-    <div class="stat-item">
-      <div class="stat-num">調布<span>発</span></div>
-      <div class="stat-label">地域密着型の活動基盤</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">一般<span>社団</span></div>
-      <div class="stat-label">法人格を持つ後援組織</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">¥0<span></span></div>
-      <div class="stat-label">子どもたちへの直接負担なし</div>
+
+    <div id="news-list" style="display:flex; flex-direction:column; gap:0;">
+      <div style="text-align:center; padding:48px; color:#94a3b8; font-size:14px;">読み込み中...</div>
     </div>
   </div>
 </div>
+
+<!-- News Modal -->
+<div id="news-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(8,21,42,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.3);">
+    <div style="position:sticky;top:0;background:#fff;border-bottom:1px solid #e8f0fc;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;z-index:1;">
+      <div id="modal-meta" style="display:flex;align-items:center;gap:12px;"></div>
+      <button onclick="closeNewsModal()" style="border:none;background:none;cursor:pointer;font-size:22px;color:#94a3b8;line-height:1;padding:4px 8px;" aria-label="閉じる">✕</button>
+    </div>
+    <div style="padding:32px 36px 40px;">
+      <h2 id="modal-title" style="font-size:22px;font-weight:900;color:#08152a;line-height:1.5;margin-bottom:24px;"></h2>
+      <div id="modal-image" style="margin-bottom:28px;"></div>
+      <div id="modal-body" style="font-size:15px;line-height:2;color:#334155;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openNewsModal(item) {
+  const modal = document.getElementById('news-modal');
+  const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
+  const category = item.category || '';
+
+  document.getElementById('modal-meta').innerHTML =
+    `<span style="font-family:'Montserrat',sans-serif;font-size:13px;color:#94a3b8;">${date}</span>` +
+    (category ? `<span style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;">${category}</span>` : '');
+
+  document.getElementById('modal-title').textContent = item.title;
+
+  const imgUrl = item.image && item.image.url;
+  document.getElementById('modal-image').innerHTML = imgUrl
+    ? `<img src="${imgUrl}" alt="${item.title}" style="width:100%;border-radius:10px;display:block;">`
+    : '';
+
+  document.getElementById('modal-body').innerHTML = item.chofu6news || '';
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeNewsModal() {
+  document.getElementById('news-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('news-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeNewsModal();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeNewsModal();
+});
+
+(function() {
+  const SERVICE_ID = 'chofu6';
+  const API_KEY = 'ZSw8WK2rmsUmdopFx52FGPEDZIZihnSAzov4';
+  const ENDPOINT = 'news';
+
+  const container = document.getElementById('news-list');
+
+  fetch('https://' + SERVICE_ID + '.microcms.io/api/v1/' + ENDPOINT + '?limit=10&orders=-publishedAt', {
+    headers: { 'X-MICROCMS-API-KEY': API_KEY }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.contents || data.contents.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;font-size:14px;">現在お知らせはありません。</div>';
+      return;
+    }
+    window._newsItems = data.contents;
+
+    const hasAnyImage = data.contents.some(item => item.image && item.image.url);
+    if (hasAnyImage) {
+      container.style.display = 'grid';
+      container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+      container.style.gap = '24px';
+      container.innerHTML = data.contents.map((item, i) => {
+        const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
+        const category = item.category || '';
+        const imgUrl = item.image && item.image.url;
+        const hasBody = !!(item.chofu6news);
+        const imgHtml = imgUrl
+          ? `<div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px 8px 0 0;background:#e8f0fc;"><img src="${imgUrl}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s;"></div>`
+          : `<div style="width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#0e2d5e 0%,#1a4fa0 100%);border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:rgba(255,255,255,0.15);letter-spacing:2px;">NEWS</span></div>`;
+        return `
+          <div onclick="openNewsModal(window._newsItems[${i}])" style="background:#fff;border:1px solid #e2eaf6;border-radius:10px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;cursor:${hasBody ? 'pointer' : 'default'};" onmouseover="this.style.boxShadow='0 8px 32px rgba(14,45,94,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+            ${imgHtml}
+            <div style="padding:20px 22px 24px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <span style="font-family:'Montserrat',sans-serif;font-size:12px;color:#94a3b8;">${date}</span>
+                ${category ? `<span style="font-size:10px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:2px 9px;border-radius:4px;">${category}</span>` : ''}
+              </div>
+              <div style="font-size:14px;font-weight:700;color:#0e2d5e;line-height:1.6;">${item.title}</div>
+              ${hasBody ? `<div style="margin-top:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</div>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    } else {
+      container.innerHTML = data.contents.map((item, i) => {
+        const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
+        const category = item.category || '';
+        const isLast = i === data.contents.length - 1;
+        const hasBody = !!(item.chofu6news);
+        return `
+          <div onclick="${hasBody ? `openNewsModal(window._newsItems[${i}])` : ''}" style="display:flex;align-items:baseline;gap:32px;padding:24px 0;border-bottom:${isLast ? 'none' : '1px solid #e8f0fc'};cursor:${hasBody ? 'pointer' : 'default'};" ${hasBody ? `onmouseover="this.style.background='#f8faff'" onmouseout="this.style.background=''"` : ''}>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#64748b;white-space:nowrap;min-width:110px;">${date}</div>
+            ${category ? `<div style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;white-space:nowrap;">${category}</div>` : ''}
+            <div style="font-size:15px;font-weight:700;color:#0e2d5e;line-height:1.5;">${item.title}${hasBody ? `<span style="margin-left:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</span>` : ''}</div>
+          </div>`;
+      }).join('');
+    }
+  })
+  .catch(() => {
+    container.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;font-size:14px;">お知らせの取得に失敗しました。</div>';
+  });
+})();
+</script>
 
 <!-- CORPORATE -->
 <div id="corporate">
@@ -289,6 +402,7 @@
   </div>
 </div>
 
+
 <!-- MEMBER -->
 <div class="member-wrapper" id="member">
   <div class="section member-section">
@@ -324,6 +438,30 @@
   </div>
 </div>
 
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-item">
+      <div class="stat-num">3<span>本柱</span></div>
+      <div class="stat-label">会員募集・物販・法人連携</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">調布<span>発</span></div>
+      <div class="stat-label">地域密着型の活動基盤</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">一般<span>社団</span></div>
+      <div class="stat-label">法人格を持つ後援組織</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">¥0<span></span></div>
+      <div class="stat-label">子どもたちへの直接負担なし</div>
+    </div>
+  </div>
+</div>
+
+
 <!-- ABOUT -->
 <div class="about-wrapper" id="about">
   <div class="section">
@@ -357,165 +495,146 @@
   </div>
 </div>
 
+
 <!-- CONTACT -->
 <div class="contact-wrapper" id="contact">
   <div class="section contact-inner">
     <div class="section-tag" style="justify-content:center;">Contact</div>
     <h2 class="section-title">参加・お問い合わせ</h2>
-    <p class="section-lead" style="margin:0 auto; text-align:center;">協賛・入会・その他のご質問はお気軽にどうぞ。</p>
-    <div class="contact-box">
-      <div class="contact-label">Email</div>
-      <div class="contact-title">まずはメールから。</div>
-      <p class="contact-sub">通常2〜3営業日以内にご返信いたします。</p>
-      <a href="mailto:chofu6.booster.club@gmail.com" class="contact-email-link">
-        ✉&nbsp; chofu6.booster.club@gmail.com
-      </a>
-      <div class="social-row">
-        <a href="https://www.instagram.com/chofu6_booster_club" target="_blank" class="social-pill soc-ig">📷 Instagram</a>
-        <a href="https://www.facebook.com/share/1UNtbMaQPu/" target="_blank" class="social-pill soc-fb">Facebook</a>
-        <a href="https://www.youtube.com/@chofu6boosterclub" target="_blank" class="social-pill soc-yt">▶ YouTube</a>
-      </div>
-    </div>
-  </div>
-</div>
+    <p class="section-lead" style="margin:0 auto; text-align:center;">協賛・入会・その他のご質問はお気軽にどうぞ。<br>通常2〜3営業日以内にご返信いたします。</p>
 
-<!-- NEWS -->
-<div style="background:#fff; border-top:1px solid #e8f0fc;" id="news">
-  <div style="max-width:1100px; margin:0 auto; padding:108px 64px;">
-    <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:52px;">
-      <div>
-        <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#1a4fa0; margin-bottom:16px; display:flex; align-items:center; gap:10px;">
-          <span style="display:block;width:20px;height:2px;background:#1a4fa0;"></span>News & Press Release
+    <div style="max-width:640px; margin:52px auto 0;">
+      <!-- Success message (hidden by default) -->
+      <div id="form-success" style="display:none; background:#eef8f0; border:1px solid #6fcf97; border-radius:12px; padding:32px; text-align:center; margin-bottom:32px;">
+        <div style="font-size:32px; margin-bottom:12px;">✓</div>
+        <div style="font-weight:700; font-size:17px; color:#1a7a3c; margin-bottom:6px;">送信が完了しました</div>
+        <div style="font-size:14px; color:#4a5568;">内容を確認のうえ、担当者よりご連絡いたします。</div>
+      </div>
+
+      <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+        <!-- お問い合わせ種別 -->
+        <div style="margin-bottom:22px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#0e2d5e; margin-bottom:8px;">
+            お問い合わせ種別 <span style="color:#e53e3e;">*</span>
+          </label>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <label style="display:flex; align-items:center; gap:7px; cursor:pointer; font-size:14px; color:#334155; background:#f8faff; border:1.5px solid #dce7f9; border-radius:8px; padding:10px 18px; transition:all 0.15s;" onmouseover="this.style.borderColor='#2563eb'" onmouseout="this.querySelector('input:not(:checked)') && (this.style.borderColor='#dce7f9')">
+              <input type="radio" name="inquiry_type" value="協賛について" required style="accent-color:#2563eb;"> 協賛について
+            </label>
+            <label style="display:flex; align-items:center; gap:7px; cursor:pointer; font-size:14px; color:#334155; background:#f8faff; border:1.5px solid #dce7f9; border-radius:8px; padding:10px 18px; transition:all 0.15s;" onmouseover="this.style.borderColor='#2563eb'" onmouseout="this.querySelector('input:not(:checked)') && (this.style.borderColor='#dce7f9')">
+              <input type="radio" name="inquiry_type" value="個人会員について" style="accent-color:#2563eb;"> 個人会員について
+            </label>
+            <label style="display:flex; align-items:center; gap:7px; cursor:pointer; font-size:14px; color:#334155; background:#f8faff; border:1.5px solid #dce7f9; border-radius:8px; padding:10px 18px; transition:all 0.15s;" onmouseover="this.style.borderColor='#2563eb'" onmouseout="this.querySelector('input:not(:checked)') && (this.style.borderColor='#dce7f9')">
+              <input type="radio" name="inquiry_type" value="その他" style="accent-color:#2563eb;"> その他
+            </label>
+          </div>
         </div>
-        <h2 style="font-size:clamp(26px,3vw,40px); font-weight:900; line-height:1.2; color:#08152a; letter-spacing:-0.5px;">お知らせ</h2>
+
+        <!-- お名前 -->
+        <div style="margin-bottom:18px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#0e2d5e; margin-bottom:8px;">
+            お名前 <span style="color:#e53e3e;">*</span>
+          </label>
+          <input type="text" name="name" required placeholder="山田 太郎"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:8px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
+        </div>
+
+        <!-- 会社名・団体名 -->
+        <div style="margin-bottom:18px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#0e2d5e; margin-bottom:8px;">
+            会社名・団体名 <span style="font-size:11px; font-weight:400; color:#94a3b8;">任意</span>
+          </label>
+          <input type="text" name="company" placeholder="株式会社〇〇"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:8px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
+        </div>
+
+        <!-- 電話番号 -->
+        <div style="margin-bottom:18px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#0e2d5e; margin-bottom:8px;">
+            電話番号 <span style="font-size:11px; font-weight:400; color:#94a3b8;">任意</span>
+          </label>
+          <input type="tel" name="phone" placeholder="090-0000-0000"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:8px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
+        </div>
+
+        <!-- メールアドレス -->
+        <div style="margin-bottom:18px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#0e2d5e; margin-bottom:8px;">
+            メールアドレス <span style="color:#e53e3e;">*</span>
+          </label>
+          <input type="email" name="email" required placeholder="example@email.com"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:8px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
+        </div>
+
+        <!-- メッセージ -->
+        <div style="margin-bottom:28px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#0e2d5e; margin-bottom:8px;">
+            お問い合わせ内容 <span style="color:#e53e3e;">*</span>
+          </label>
+          <textarea name="message" required rows="6" placeholder="ご質問・ご要望をご記入ください。"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:8px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; resize:vertical; line-height:1.7; transition:border-color 0.15s;"
+            onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" id="submit-btn"
+          style="width:100%; padding:16px; background:var(--mid); color:#fff; border:none; border-radius:10px; font-size:16px; font-weight:700; font-family:'Noto Sans JP',sans-serif; cursor:pointer; transition:background 0.2s, transform 0.1s; letter-spacing:0.5px;"
+          onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#1a4fa0'"
+          onmousedown="this.style.transform='scale(0.99)'" onmouseup="this.style.transform=''">
+          送信する
+        </button>
+        <div id="form-error" style="display:none; margin-top:14px; text-align:center; font-size:13px; color:#e53e3e;"></div>
+      </form>
+
+      <!-- SNS -->
+      <div style="margin-top:40px; padding-top:32px; border-top:1px solid #e8f0fc; text-align:center;">
+        <div style="font-size:12px; color:#94a3b8; margin-bottom:16px;">SNSでもご確認いただけます</div>
+        <div class="social-row" style="justify-content:center;">
+          <a href="https://www.instagram.com/chofu6_booster_club" target="_blank" class="social-pill soc-ig">📷 Instagram</a>
+          <a href="https://www.facebook.com/share/1UNtbMaQPu/" target="_blank" class="social-pill soc-fb">Facebook</a>
+          <a href="https://www.youtube.com/@chofu6boosterclub" target="_blank" class="social-pill soc-yt">▶ YouTube</a>
+        </div>
       </div>
-    </div>
-
-    <div id="news-list" style="display:flex; flex-direction:column; gap:0;">
-      <div style="text-align:center; padding:48px; color:#94a3b8; font-size:14px;">読み込み中...</div>
-    </div>
-  </div>
-</div>
-
-<!-- News Modal -->
-<div id="news-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(8,21,42,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px;">
-  <div style="background:#fff;border-radius:16px;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.3);">
-    <div style="position:sticky;top:0;background:#fff;border-bottom:1px solid #e8f0fc;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;z-index:1;">
-      <div id="modal-meta" style="display:flex;align-items:center;gap:12px;"></div>
-      <button onclick="closeNewsModal()" style="border:none;background:none;cursor:pointer;font-size:22px;color:#94a3b8;line-height:1;padding:4px 8px;" aria-label="閉じる">✕</button>
-    </div>
-    <div style="padding:32px 36px 40px;">
-      <h2 id="modal-title" style="font-size:22px;font-weight:900;color:#08152a;line-height:1.5;margin-bottom:24px;"></h2>
-      <div id="modal-image" style="margin-bottom:28px;"></div>
-      <div id="modal-body" style="font-size:15px;line-height:2;color:#334155;"></div>
     </div>
   </div>
 </div>
 
 <script>
-function openNewsModal(item) {
-  const modal = document.getElementById('news-modal');
-  const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
-  const category = item.category || '';
-
-  // meta (date + category)
-  document.getElementById('modal-meta').innerHTML =
-    `<span style="font-family:'Montserrat',sans-serif;font-size:13px;color:#94a3b8;">${date}</span>` +
-    (category ? `<span style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;">${category}</span>` : '');
-
-  // title
-  document.getElementById('modal-title').textContent = item.title;
-
-  // eyecatch image (image field)
-  const imgUrl = item.image && item.image.url;
-  document.getElementById('modal-image').innerHTML = imgUrl
-    ? `<img src="${imgUrl}" alt="${item.title}" style="width:100%;border-radius:10px;display:block;">`
-    : '';
-
-  // rich text body (chofu6news field)
-  document.getElementById('modal-body').innerHTML = item.chofu6news || '';
-
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeNewsModal() {
-  document.getElementById('news-modal').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-// close on backdrop click
-document.getElementById('news-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeNewsModal();
-});
-
-// close on Esc
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeNewsModal();
-});
-
 (function() {
-  const SERVICE_ID = 'chofu6';
-  const API_KEY = 'ZSw8WK2rmsUmdopFx52FGPEDZIZihnSAzov4';
-  const ENDPOINT = 'news';
-
-  const container = document.getElementById('news-list');
-
-  fetch('https://' + SERVICE_ID + '.microcms.io/api/v1/' + ENDPOINT + '?limit=10&orders=-publishedAt', {
-    headers: { 'X-MICROCMS-API-KEY': API_KEY }
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (!data.contents || data.contents.length === 0) {
-      container.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;font-size:14px;">現在お知らせはありません。</div>';
-      return;
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const errEl = document.getElementById('form-error');
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+    btn.style.background = '#94a3b8';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        const data = await res.json();
+        throw new Error(data.error || '送信に失敗しました');
+      }
+    } catch (err) {
+      errEl.textContent = err.message || '送信中にエラーが発生しました。時間をおいて再度お試しください。';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '送信する';
+      btn.style.background = '#1a4fa0';
     }
-    // Store all items globally so modal can access them
-    window._newsItems = data.contents;
-
-    const hasAnyImage = data.contents.some(item => item.image && item.image.url);
-    if (hasAnyImage) {
-      container.style.display = 'grid';
-      container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
-      container.style.gap = '24px';
-      container.innerHTML = data.contents.map((item, i) => {
-        const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
-        const category = item.category || '';
-        const imgUrl = item.image && item.image.url;
-        const hasBody = !!(item.chofu6news);
-        const imgHtml = imgUrl
-          ? `<div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px 8px 0 0;background:#e8f0fc;"><img src="${imgUrl}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s;"></div>`
-          : `<div style="width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#0e2d5e 0%,#1a4fa0 100%);border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:rgba(255,255,255,0.15);letter-spacing:2px;">NEWS</span></div>`;
-        return `
-          <div onclick="openNewsModal(window._newsItems[${i}])" style="background:#fff;border:1px solid #e2eaf6;border-radius:10px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;cursor:${hasBody ? 'pointer' : 'default'};" onmouseover="this.style.boxShadow='0 8px 32px rgba(14,45,94,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
-            ${imgHtml}
-            <div style="padding:20px 22px 24px;">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                <span style="font-family:'Montserrat',sans-serif;font-size:12px;color:#94a3b8;">${date}</span>
-                ${category ? `<span style="font-size:10px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:2px 9px;border-radius:4px;">${category}</span>` : ''}
-              </div>
-              <div style="font-size:14px;font-weight:700;color:#0e2d5e;line-height:1.6;">${item.title}</div>
-              ${hasBody ? `<div style="margin-top:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</div>` : ''}
-            </div>
-          </div>`;
-      }).join('');
-    } else {
-      container.innerHTML = data.contents.map((item, i) => {
-        const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
-        const category = item.category || '';
-        const isLast = i === data.contents.length - 1;
-        const hasBody = !!(item.chofu6news);
-        return `
-          <div onclick="${hasBody ? `openNewsModal(window._newsItems[${i}])` : ''}" style="display:flex;align-items:baseline;gap:32px;padding:24px 0;border-bottom:${isLast ? 'none' : '1px solid #e8f0fc'};cursor:${hasBody ? 'pointer' : 'default'};" ${hasBody ? `onmouseover="this.style.background='#f8faff'" onmouseout="this.style.background=''"` : ''}>
-            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#64748b;white-space:nowrap;min-width:110px;">${date}</div>
-            ${category ? `<div style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;white-space:nowrap;">${category}</div>` : ''}
-            <div style="font-size:15px;font-weight:700;color:#0e2d5e;line-height:1.5;">${item.title}${hasBody ? `<span style="margin-left:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</span>` : ''}</div>
-          </div>`;
-      }).join('');
-    }
-  })
-  .catch(() => {
-    container.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;font-size:14px;">お知らせの取得に失敗しました。</div>';
   });
 })();
 </script>
