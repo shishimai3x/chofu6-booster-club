@@ -379,6 +379,275 @@
   </div>
 </div>
 
+<!-- NEWS -->
+<div style="background:#fff; border-top:1px solid #e8f0fc;" id="news">
+  <div style="max-width:1100px; margin:0 auto; padding:108px 64px;">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:52px;">
+      <div>
+        <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#1a4fa0; margin-bottom:16px; display:flex; align-items:center; gap:10px;">
+          <span style="display:block;width:20px;height:2px;background:#1a4fa0;"></span>News & Press Release
+        </div>
+        <h2 style="font-size:clamp(26px,3vw,40px); font-weight:900; line-height:1.2; color:#08152a; letter-spacing:-0.5px;">お知らせ</h2>
+      </div>
+    </div>
+
+    <div id="news-list" style="display:flex; flex-direction:column; gap:0;">
+      <div style="text-align:center; padding:48px; color:#94a3b8; font-size:14px;">読み込み中...</div>
+    </div>
+  </div>
+</div>
+
+<!-- News Modal -->
+<div id="news-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(8,21,42,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.3);">
+    <div style="position:sticky;top:0;background:#fff;border-bottom:1px solid #e8f0fc;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;z-index:1;">
+      <div id="modal-meta" style="display:flex;align-items:center;gap:12px;"></div>
+      <button onclick="closeNewsModal()" style="border:none;background:none;cursor:pointer;font-size:22px;color:#94a3b8;line-height:1;padding:4px 8px;" aria-label="閉じる">✕</button>
+    </div>
+    <div style="padding:32px 36px 40px;">
+      <h2 id="modal-title" style="font-size:22px;font-weight:900;color:#08152a;line-height:1.5;margin-bottom:24px;"></h2>
+      <div id="modal-image" style="margin-bottom:28px;"></div>
+      <div id="modal-body" style="font-size:15px;line-height:2;color:#334155;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openNewsModal(item) {
+  const modal = document.getElementById('news-modal');
+  const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
+  const category = item.category || '';
+
+  // meta (date + category)
+  document.getElementById('modal-meta').innerHTML =
+    `<span style="font-family:'Montserrat',sans-serif;font-size:13px;color:#94a3b8;">${date}</span>` +
+    (category ? `<span style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;">${category}</span>` : '');
+
+  // title
+  document.getElementById('modal-title').textContent = item.title;
+
+  // eyecatch image (image field)
+  const imgUrl = item.image && item.image.url;
+  document.getElementById('modal-image').innerHTML = imgUrl
+    ? `<img src="${imgUrl}" alt="${item.title}" style="width:100%;border-radius:10px;display:block;">`
+    : '';
+
+  // rich text body (chofu6news field)
+  document.getElementById('modal-body').innerHTML = item.chofu6news || '';
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeNewsModal() {
+  document.getElementById('news-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// close on backdrop click
+document.getElementById('news-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeNewsModal();
+});
+
+// close on Esc
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeNewsModal();
+});
+
+(function() {
+  const SERVICE_ID = 'chofu6';
+  const API_KEY = 'ZSw8WK2rmsUmdopFx52FGPEDZIZihnSAzov4';
+  const ENDPOINT = 'news';
+
+  const container = document.getElementById('news-list');
+
+  fetch('https://' + SERVICE_ID + '.microcms.io/api/v1/' + ENDPOINT + '?limit=10&orders=-publishedAt', {
+    headers: { 'X-MICROCMS-API-KEY': API_KEY }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.contents || data.contents.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;font-size:14px;">現在お知らせはありません。</div>';
+      return;
+    }
+    // Store all items globally so modal can access them
+    window._newsItems = data.contents;
+
+    const hasAnyImage = data.contents.some(item => item.image && item.image.url);
+    if (hasAnyImage) {
+      container.style.display = 'grid';
+      container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+      container.style.gap = '24px';
+      container.innerHTML = data.contents.map((item, i) => {
+        const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
+        const category = item.category || '';
+        const imgUrl = item.image && item.image.url;
+        const hasBody = !!(item.chofu6news);
+        const imgHtml = imgUrl
+          ? `<div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px 8px 0 0;background:#e8f0fc;"><img src="${imgUrl}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s;"></div>`
+          : `<div style="width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#0e2d5e 0%,#1a4fa0 100%);border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:rgba(255,255,255,0.15);letter-spacing:2px;">NEWS</span></div>`;
+        return `
+          <div onclick="openNewsModal(window._newsItems[${i}])" style="background:#fff;border:1px solid #e2eaf6;border-radius:10px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;cursor:${hasBody ? 'pointer' : 'default'};" onmouseover="this.style.boxShadow='0 8px 32px rgba(14,45,94,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+            ${imgHtml}
+            <div style="padding:20px 22px 24px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <span style="font-family:'Montserrat',sans-serif;font-size:12px;color:#94a3b8;">${date}</span>
+                ${category ? `<span style="font-size:10px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:2px 9px;border-radius:4px;">${category}</span>` : ''}
+              </div>
+              <div style="font-size:14px;font-weight:700;color:#0e2d5e;line-height:1.6;">${item.title}</div>
+              ${hasBody ? `<div style="margin-top:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</div>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    } else {
+      container.innerHTML = data.contents.map((item, i) => {
+        const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
+        const category = item.category || '';
+        const isLast = i === data.contents.length - 1;
+        const hasBody = !!(item.chofu6news);
+        return `
+          <div onclick="${hasBody ? `openNewsModal(window._newsItems[${i}])` : ''}" style="display:flex;align-items:baseline;gap:32px;padding:24px 0;border-bottom:${isLast ? 'none' : '1px solid #e8f0fc'};cursor:${hasBody ? 'pointer' : 'default'};" ${hasBody ? `onmouseover="this.style.background='#f8faff'" onmouseout="this.style.background=''"` : ''}>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#64748b;white-space:nowrap;min-width:110px;">${date}</div>
+            ${category ? `<div style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;white-space:nowrap;">${category}</div>` : ''}
+            <div style="font-size:15px;font-weight:700;color:#0e2d5e;line-height:1.5;">${item.title}${hasBody ? `<span style="margin-left:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</span>` : ''}</div>
+          </div>`;
+      }).join('');
+    }
+  })
+  .catch(() => {
+    container.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;font-size:14px;">お知らせの取得に失敗しました。</div>';
+  });
+})();
+</script>
+
+<!-- LEGAL -->
+<div style="background:#f8faff; border-top:1px solid #e2eaf6;">
+  <div style="max-width:1100px; margin:0 auto; padding:64px 64px;">
+    <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#1a4fa0; margin-bottom:32px; display:flex; align-items:center; gap:10px;">
+      <span style="display:block;width:20px;height:2px;background:#1a4fa0;"></span>Legal
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+
+      <!-- 会員規約 -->
+      <details style="background:#fff; border:1px solid #e2eaf6; border-radius:12px; overflow:hidden;">
+        <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:#0e2d5e; display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
+          会員規約
+          <span style="font-size:20px; color:#1a4fa0; transition:transform 0.2s;" class="toggle-icon">＋</span>
+        </summary>
+        <div style="padding:0 28px 32px; border-top:1px solid #e2eaf6;">
+          <div style="font-size:13px; line-height:2; color:#4a5568; white-space:pre-wrap; margin-top:24px; max-height:480px; overflow-y:auto; padding-right:8px;">
+<strong>第1章　総則</strong>
+
+<strong>第1条　総則</strong>
+1. 本会員規約は、一般社団法人調布六中サッカー部後援会（以下「弊社」といいます。）が提供するサービス（以下「本サービス」といいます。）の利用にあたり会員が遵守すべき利用条件を定めるものです。
+2. 本サービスに関して弊社の定める他の各種規約は、本会員規約の一部を構成するものとし、会員は、本会員規約の内容を十分理解した上でその内容を遵守することに同意して本サービスを利用するものとし、本サービスを利用した場合には、当該会員は本会員規約を遵守することに同意したものとみなします。
+
+<strong>第2条　定義</strong>
+本会員規約の中で使用される以下の各用語は、それぞれ以下各号の意味を有するものとします。
+(1)「本サービス」：弊社が会員に対して提供するサービスの総称のことをいいます。
+(2)「会員」：弊社の会員区分は以下のとおりとなります。
+　①現役会員　　　当法人の目的に賛同して部活動に参加した現役選手の保護者
+　②個人賛助会員　当法人の事業を賛助するため入会した個人（個人事業主を除く）
+　③法人賛助会員　当法人の事業を賛助するため入会した法人及び個人事業主
+　④名誉会員　　　当法人に功労のあった者又は学識経験者で社員総会において推薦された者
+(3)「協賛企業」：弊社又は弊社会員に対して、金銭又は役務の提供をすることにより弊社の活動を支援する法人のことをいいます。
+(4)「登録情報」：会員登録手続で入力・提供された一切の情報をさします。
+(5)「個人情報」：住所・氏名・電子メールアドレス等特定の個人を識別できる情報をいいます。
+
+<strong>第3条　本会員規約の変更</strong>
+1. 弊社は、各会員から個別の同意を得ることなく弊社の裁量で本会員規約を変更することができるものとします。
+2. 変更後の会員規約の効力発生日以降に会員が本アプリを利用した場合、本会員規約の変更に同意したものとみなします。
+
+<strong>第2章　会員登録等</strong>
+
+<strong>第4条　会員登録</strong>
+1. 会員登録手続を行うことができるのは、その会員となる本人に限るものとし、代理人による会員登録は認められないものとします。
+2. 会員登録手続を行う者は、登録情報の入力にあたり、入力した情報は全て真実であることを保証するものとします。
+4. 会員として登録できる者の資格・条件は以下の通りです。
+　(1) 満18歳以上であること
+　(2) 電子メールアドレスを保有していること
+　(3) クレジットカードを保有していること
+　(4) 既に本サービスの同一区分の会員となっていないこと
+　(5) 本会員規約の全ての条項に同意すること
+
+<strong>第5条　会員登録の取消等・退会</strong>
+会員について所定の事実が判明した場合、会員登録の取消・本サービス利用の停止等を行う場合があります。
+
+<strong>第3章　本サービス</strong>
+
+<strong>第6条　期間</strong>
+会員としてのサービスを受領することができる期間は、入会登録手続きが完了した日から起算して1年以内に到来する3月31日までとします。特段の意思表示がない場合は自動更新されます。
+
+<strong>第7条　本サービスの内容</strong>
+①スポーツ指導　②動画配信サービス　③情報提供サービス　④イベントサービス　⑤物品販売サービス　⑥広報支援サービス　⑦コンサルティングサービス
+
+<strong>第11条　会員会費</strong>
+①現役会員　　　金6,500円
+②個人賛助会員　金2,000円（入会時および毎年3月31日）
+③法人賛助会員　金100,000円（入会時および毎年3月31日）
+※支払方法：個人賛助会員・法人賛助会員はクレジットカード払い
+
+<strong>第14条　禁止事項</strong>
+知的財産権の侵害、誹謗中傷、なりすまし、不正アクセス、その他法令・公序良俗に違反する行為を禁止します。
+
+<strong>第24条　準拠法・管轄裁判所</strong>
+本会員規約は日本法に基づき解釈されます。訴訟等が生じた場合は東京地方裁判所を第一審の専属的合意管轄裁判所とします。
+          </div>
+        </div>
+      </details>
+
+      <!-- 個人情報保護方針 -->
+      <details style="background:#fff; border:1px solid #e2eaf6; border-radius:12px; overflow:hidden;">
+        <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:#0e2d5e; display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
+          個人情報保護方針
+          <span style="font-size:20px; color:#1a4fa0;">＋</span>
+        </summary>
+        <div style="padding:0 28px 32px; border-top:1px solid #e2eaf6;">
+          <div style="font-size:13px; line-height:2; color:#4a5568; white-space:pre-wrap; margin-top:24px; max-height:480px; overflow-y:auto; padding-right:8px;">
+一般社団法人調布六中サッカー部後援会（以下、「当社」といいます。）は、個人情報の重要性を認識し、また社会的責務であるプライバシーの保護について以下の通り、個人情報保護方針に基づいて、個人情報の保護に努めます。
+
+1. 個人情報の保護に関する法律およびその他の法令、規範を遵守します。
+2. 個人情報への不正アクセス、紛失、破壊、改ざんおよび漏洩等の予防ならびに是正に努め、適正な管理のもとに安全対策を講じます。
+3. 個人情報取り扱いの規定を定め、組織体制を整備し、個人情報の適切な保護に努めます。
+4. 個人情報を適切な方法で管理し、特段の事情がない限り、ご本人の承諾なく第三者に開示・提供することはありません。
+5. 個人情報の処理を外部に委託する場合には、漏洩や再提供をおこなわないよう、契約により義務付け、適切な管理を実施します。
+6. 個人情報の確認、訂正作業等を希望される場合には、ご本人からの依頼であることが確認できる方法でご連絡いただければ対応させていただきます。
+
+<strong>個人情報管理・取扱部署責任者</strong>
+東京都新宿区四谷三丁目13番地 SEABIRDビル２階
+一般社団法人調布六中サッカー部後援会
+問い合わせ先：代表理事　竹内義博
+chofu6.booster.club@gmail.com
+
+<strong>1. 個人情報の利用目的</strong>
+(1) 書類等の発送、E-mailの送付、お知らせメールニュースなど当協会に関する情報のお知らせのため
+(2) 当社とのお取引に関する与信管理、回収管理、債権管理のため
+(3) 商品販売、セミナー、交流会等の日常的な参加登録に伴う商取引を行う範囲での利用
+(4) 官公庁、その他これに準じる団体に対する届け出・報告
+(5) 当社サービス利用者からのお問合わせ、サービス等に対する適切な対応
+
+<strong>2. 個人情報の提供</strong>
+当社が、会員等の個人情報は、以下のいずれかに該当する場合を除き、第三者に提供・開示することはありません。
+(1) 事前の承認、同意を得た場合
+(2) 法令に基づき提供に応じなければならない場合
+(3) 人の生命、身体または財産の保護のために必要な場合であって、本人の同意を得ることが困難である場合
+
+<strong>3. 個人情報の外部委託</strong>
+当社では、「秘密保持契約」を締結している業務委託会社に委託することがあります。利用者に明示した利用目的の達成に必要な範囲に限ります。
+
+<strong>4. 個人情報の開示・変更・削除</strong>
+保有個人情報の開示・訂正・削除をご希望の場合は、ご本人確認の上、合理的な範囲で対応いたします。
+
+<strong>5. 本規定の改廃</strong>
+本規定の改廃は、理事の決定（理事会設置後は理事会）にて行うものとします。
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="footer-logo">chofu6 booster club</div>
   <div class="footer-copy">© 2025 一般社団法人調布六中サッカー部後援会</div>
