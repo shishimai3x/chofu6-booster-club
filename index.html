@@ -44,7 +44,9 @@
       --blue:  var(--layer);
       --mid:   var(--layer-mid);
       --bright: var(--cta);
-      --accent: #5a9fd4;        /* 10% muted — decorative use only */
+      --accent: #F97316;        /* vivid coral-orange */
+      --accent-dim: rgba(249,115,22,0.15); /* coral on dark */
+      --accent-dark: #9a3412;   /* dark coral — text-safe on white (6.7:1) */
       --light: var(--bg-soft);
       --white: var(--bg);
       --gray:  var(--ink-2);
@@ -92,9 +94,9 @@
     }
     .logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
     .logo-mark {
-      width: 36px; height: 36px; background: var(--cta);
+      width: 36px; height: 36px; background: var(--accent);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 12px; color: white; letter-spacing: -0.5px;
+      font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 12px; color: #0d1b2e; letter-spacing: -0.5px;
     }
     .logo-en { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.95); letter-spacing: 2px; text-transform: uppercase; line-height: 1; }
     .logo-ja { font-size: 11px; color: rgba(255,255,255,0.85); margin-top: 5px; letter-spacing: 0.3px; }
@@ -130,7 +132,7 @@
       display: inline-flex; align-items: center; gap: 16px;
       font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 40px;
     }
-    .hero-eyebrow::before { content: ''; display: block; width: 36px; height: 1px; background: rgba(255,255,255,0.50); }
+    .hero-eyebrow::before { content: ''; display: block; width: 36px; height: 2px; background: var(--accent); }
     .hero h1 { font-size: clamp(52px, 7vw, 88px); font-weight: 900; line-height: 1.04; color: var(--white); margin-bottom: 32px; letter-spacing: -2px; }
     .hero h1 em { font-style: normal; color: var(--accent); }
     .hero-sub { font-size: 17px; color: rgba(255,255,255,0.92); line-height: 2.0; margin-bottom: 60px; max-width: 500px; font-weight: 400; }
@@ -142,40 +144,40 @@
     .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; font-weight: 700; font-size: 14px; text-decoration: none; transition: all 0.15s; letter-spacing: 0.3px; }
     .btn-solid { background: var(--cta); color: var(--white); }
     .btn-solid:hover { background: var(--cta-hover); }
-    .btn-outline { border: 1px solid rgba(255,255,255,0.45); color: rgba(255,255,255,0.88); }
-    .btn-outline:hover { border-color: rgba(255,255,255,0.85); color: var(--white); }
+    .btn-outline { border: 1px solid var(--accent); color: var(--accent); }
+    .btn-outline:hover { background: var(--accent-dim); color: var(--accent); }
 
     /* STAT BAR */
     .stat-bar { background: var(--blue); border-top: 1px solid rgba(255,255,255,0.22); border-bottom: 1px solid rgba(255,255,255,0.22); }
     .stat-bar-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); display: flex; }
     .stat-item { flex: 1; padding: 36px 44px; border-right: 1px solid rgba(255,255,255,0.22); }
     .stat-item:last-child { border-right: none; }
-    .stat-num { font-family: 'Montserrat', sans-serif; font-size: 48px; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 8px; letter-spacing: -2px; }
-    .stat-num span { font-size: 16px; color: var(--accent); margin-left: 2px; font-weight: 500; letter-spacing: 0; }
+    .stat-num { font-family: 'Montserrat', sans-serif; font-size: 48px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 8px; letter-spacing: -2px; }
+    .stat-num span { font-size: 16px; color: rgba(255,255,255,0.70); margin-left: 4px; font-weight: 500; letter-spacing: 0; }
     .stat-label { font-size: 13px; color: rgba(255,255,255,0.80); letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
 
     /* SECTIONS */
     .section { padding: var(--section-gap) var(--gutter); max-width: var(--max-w); margin: 0 auto; }
     .section-tag { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--mid); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
-    .section-tag::before { content: ''; display: block; width: 24px; height: 1px; background: currentColor; }
+    .section-tag::before { content: ''; display: block; width: 24px; height: 2px; background: var(--accent); }
     .section-title { font-size: clamp(36px, 4.5vw, 56px); font-weight: 900; line-height: 1.1; color: var(--navy); letter-spacing: -1.5px; margin-bottom: 20px; }
     .section-lead { font-size: 16px; color: #354555; line-height: 2.1; max-width: 560px; font-weight: 400; }
 
     /* CORPORATE */
     .corporate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 64px; align-items: start; }
     .merit-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
-    .merit-item { display: flex; align-items: flex-start; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--border); transition: padding-left 0.2s; }
+    .merit-item { display: flex; align-items: flex-start; gap: 24px; padding: 22px 0 22px 16px; border-bottom: 1px solid var(--border); border-left: 2px solid transparent; transition: border-left-color 0.2s, padding-left 0.2s; }
     .merit-item:first-child { border-top: 1px solid var(--border); }
-    .merit-item:hover { padding-left: 6px; }
+    .merit-item:hover { border-left-color: var(--accent); padding-left: 20px; }
     .merit-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; opacity: 0.9; }
     .merit-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
     .merit-text { font-size: 14px; color: #354555; line-height: 1.9; font-weight: 400; }
 
-    .flow-card { background: #13355f; padding: 44px; }
-    .flow-card-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.68); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 36px; font-family: 'Montserrat', sans-serif; }
+    .flow-card { background: #13355f; padding: 44px; border-left: 3px solid var(--accent); }
+    .flow-card-title { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 36px; font-family: 'Montserrat', sans-serif; }
     .flow-step { display: flex; gap: 20px; }
     .flow-step-left { display: flex; flex-direction: column; align-items: center; }
-    .flow-num { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.50); display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; color: rgba(255,255,255,0.85); flex-shrink: 0; }
+    .flow-num { width: 26px; height: 26px; border: 1.5px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; color: var(--accent); flex-shrink: 0; }
     .flow-connector { width: 1px; flex: 1; min-height: 24px; background: rgba(255,255,255,0.28); margin: 6px 0; }
     .flow-step:last-child .flow-connector { display: none; }
     .flow-body { padding: 2px 0 28px; }
@@ -191,8 +193,8 @@
     .benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 56px; background: rgba(255,255,255,0.24); }
     .benefit-card { background: #13355f; padding: 40px 36px; transition: background 0.15s; border-radius: 4px; }
     .benefit-card:hover { background: #183d6e; }
-    .benefit-num { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.58); letter-spacing: 3px; margin-bottom: 20px; }
-    .benefit-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 10px; line-height: 1.45; }
+    .benefit-num { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 3px; margin-bottom: 20px; }
+    .benefit-title { font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 10px; line-height: 1.45; }
     .benefit-text { font-size: 14px; color: rgba(255,255,255,0.88); line-height: 2; font-weight: 400; }
     .member-cta-area { margin-top: 56px; display: flex; align-items: center; gap: 28px; }
     .member-cta-note { font-size: 13px; color: rgba(255,255,255,0.75); }
@@ -203,10 +205,11 @@
     .about-visual { background: var(--navy); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .pitch-svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.42; }
     .about-visual-inner { position: relative; z-index: 1; text-align: center; }
-    .about-visual-en { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 5px; color: rgba(255,255,255,0.68); text-transform: uppercase; margin-bottom: 12px; }
+    .about-visual-en { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
     .about-visual-ja { font-size: 22px; font-weight: 900; color: var(--white); line-height: 1.6; }
     .about-desc { font-size: 15px; color: #354555; line-height: 2.1; margin-bottom: 16px; font-weight: 400; }
     .about-desc:last-child { margin-bottom: 0; }
+    .about-desc strong { color: var(--accent-dark); font-weight: 700; }
 
     /* CONTACT — dark CTA block */
     .contact-wrapper { background: var(--bg-dark); }
@@ -214,7 +217,7 @@
     .contact-inner .section-tag { color: rgba(255,255,255,0.70); justify-content: center; }
     .contact-inner .section-title { color: var(--white); }
     .contact-inner .section-lead { color: rgba(255,255,255,0.80); margin: 0 auto; }
-    .contact-form-card { background: #fff; padding: 48px; margin-top: 52px; max-width: 640px; margin-left: auto; margin-right: auto; }
+    .contact-form-card { background: #fff; padding: 48px; margin-top: 52px; max-width: 640px; margin-left: auto; margin-right: auto; border-top: 3px solid var(--accent); }
     .social-row { display: flex; justify-content: center; gap: 12px; margin-top: 24px; position: relative; z-index: 1; flex-wrap: wrap; }
     .social-pill { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid rgba(255,255,255,0.30); color: rgba(255,255,255,0.88); background: transparent; transition: border-color 0.15s, background 0.15s; letter-spacing: 0.2px; }
     .social-pill:hover { border-color: rgba(255,255,255,0.70); background: rgba(255,255,255,0.08); }
@@ -373,8 +376,8 @@
   <div style="max-width:var(--max-w); margin:0 auto; padding:var(--section-gap) var(--gutter);">
     <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:52px;">
       <div>
-        <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#1a4fa0; margin-bottom:16px; display:flex; align-items:center; gap:10px;">
-          <span style="display:block;width:20px;height:2px;background:#1a4fa0;"></span>News & Press Release
+        <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dark); margin-bottom:16px; display:flex; align-items:center; gap:10px;">
+          <span style="display:block;width:20px;height:2px;background:var(--accent);"></span>News & Press Release
         </div>
         <h2 style="font-size:clamp(26px,3vw,40px); font-weight:900; line-height:1.2; color:#08152a; letter-spacing:-0.5px;">お知らせ</h2>
       </div>
@@ -408,8 +411,8 @@ function openNewsModal(item) {
   const category = item.category || '';
 
   document.getElementById('modal-meta').innerHTML =
-    `<span style="font-family:'Montserrat',sans-serif;font-size:13px;color:#94a3b8;">${date}</span>` +
-    (category ? `<span style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;">${category}</span>` : '');
+    `<span style="font-family:'Montserrat',sans-serif;font-size:13px;color:var(--accent-dark);font-weight:600;">${date}</span>` +
+    (category ? `<span style="font-size:11px;font-weight:700;color:#fff;background:var(--accent);padding:3px 10px;border-radius:4px;">${category}</span>` : '');
 
   document.getElementById('modal-title').textContent = item.title;
 
@@ -469,15 +472,15 @@ document.addEventListener('keydown', function(e) {
           ? `<div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:4px 4px 0 0;background:#e8f0fc;"><img src="${imgUrl}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s;"></div>`
           : `<div style="width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#0e2d5e 0%,#1a4fa0 100%);border-radius:4px 4px 0 0;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:rgba(255,255,255,0.15);letter-spacing:2px;">NEWS</span></div>`;
         return `
-          <div onclick="openNewsModal(window._newsItems[${i}])" style="background:#fff;border:1px solid #e2eaf6;border-radius:4px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;cursor:${hasBody ? 'pointer' : 'default'};" onmouseover="this.style.boxShadow='0 8px 32px rgba(14,45,94,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+          <div onclick="openNewsModal(window._newsItems[${i}])" style="background:#fff;border:1px solid #e2eaf6;border-top:3px solid var(--accent);border-radius:4px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;cursor:${hasBody ? 'pointer' : 'default'};" onmouseover="this.style.boxShadow='0 8px 32px rgba(14,45,94,0.12)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
             ${imgHtml}
             <div style="padding:20px 22px 24px;">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                <span style="font-family:'Montserrat',sans-serif;font-size:12px;color:#94a3b8;">${date}</span>
-                ${category ? `<span style="font-size:10px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:2px 9px;border-radius:4px;">${category}</span>` : ''}
+                <span style="font-family:'Montserrat',sans-serif;font-size:12px;color:var(--accent-dark);font-weight:600;">${date}</span>
+                ${category ? `<span style="font-size:10px;font-weight:700;color:#fff;background:var(--accent);padding:2px 9px;border-radius:4px;">${category}</span>` : ''}
               </div>
               <div style="font-size:14px;font-weight:700;color:#0e2d5e;line-height:1.6;">${item.title}</div>
-              ${hasBody ? `<div style="margin-top:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</div>` : ''}
+              ${hasBody ? `<div style="margin-top:10px;font-size:12px;color:var(--accent);font-weight:600;">続きを読む →</div>` : ''}
             </div>
           </div>`;
       }).join('');
@@ -488,10 +491,10 @@ document.addEventListener('keydown', function(e) {
         const isLast = i === data.contents.length - 1;
         const hasBody = !!(item.chofu6news);
         return `
-          <div onclick="${hasBody ? `openNewsModal(window._newsItems[${i}])` : ''}" style="display:flex;align-items:baseline;gap:32px;padding:24px 0;border-bottom:${isLast ? 'none' : '1px solid #e8f0fc'};cursor:${hasBody ? 'pointer' : 'default'};" ${hasBody ? `onmouseover="this.style.background='#f8faff'" onmouseout="this.style.background=''"` : ''}>
-            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#64748b;white-space:nowrap;min-width:110px;">${date}</div>
-            ${category ? `<div style="font-size:11px;font-weight:700;color:#1a4fa0;background:#eef4ff;padding:3px 10px;border-radius:4px;white-space:nowrap;">${category}</div>` : ''}
-            <div style="font-size:15px;font-weight:700;color:#0e2d5e;line-height:1.5;">${item.title}${hasBody ? `<span style="margin-left:10px;font-size:12px;color:#3b9eff;font-weight:600;">続きを読む →</span>` : ''}</div>
+          <div onclick="${hasBody ? `openNewsModal(window._newsItems[${i}])` : ''}" style="display:flex;align-items:baseline;gap:32px;padding:24px 0 24px 16px;border-bottom:${isLast ? 'none' : '1px solid #e8f0fc'};border-left:3px solid var(--accent);padding-left:20px;cursor:${hasBody ? 'pointer' : 'default'};" ${hasBody ? `onmouseover="this.style.background='rgba(249,115,22,0.05)'" onmouseout="this.style.background=''"` : ''}>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:var(--accent-dark);font-weight:600;white-space:nowrap;min-width:110px;">${date}</div>
+            ${category ? `<div style="font-size:11px;font-weight:700;color:#fff;background:var(--accent);padding:3px 10px;border-radius:4px;white-space:nowrap;">${category}</div>` : ''}
+            <div style="font-size:15px;font-weight:700;color:#0e2d5e;line-height:1.5;">${item.title}${hasBody ? `<span style="margin-left:10px;font-size:12px;color:var(--accent);font-weight:600;">続きを読む →</span>` : ''}</div>
           </div>`;
       }).join('');
     }
@@ -514,7 +517,7 @@ document.addEventListener('keydown', function(e) {
         <ul class="merit-list">
           <li class="merit-item">
             <div class="merit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mid);" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
             </div>
             <div>
               <div class="merit-title">地域貢献としての認知向上</div>
@@ -523,7 +526,7 @@ document.addEventListener('keydown', function(e) {
           </li>
           <li class="merit-item">
             <div class="merit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mid);" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
             <div>
               <div class="merit-title">賛助会員への直接リーチ</div>
@@ -532,7 +535,7 @@ document.addEventListener('keydown', function(e) {
           </li>
           <li class="merit-item">
             <div class="merit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mid);" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
             </div>
             <div>
               <div class="merit-title">福利厚生パートナーとしての実績</div>
@@ -647,6 +650,7 @@ document.addEventListener('keydown', function(e) {
           <circle cx="320" cy="150" r="2" fill="white"/>
         </svg>
         <div class="about-visual-inner">
+          <div style="width:32px;height:2px;background:var(--accent);margin:0 auto 16px;"></div>
           <div class="about-visual-en">Chofu · Community</div>
           <div class="about-visual-ja">調布から、<br>地域を支える。</div>
         </div>
@@ -654,9 +658,9 @@ document.addEventListener('keydown', function(e) {
       <div>
         <div class="section-tag">About</div>
         <h2 class="section-title">一般社団法人<br>調布六中サッカー部後援会</h2>
-        <p class="about-desc">chofu6 booster clubは、調布地域に根ざした後援会活動を通じて、子どもたちのスポーツ環境を持続的に支えるために設立された法人です。</p>
-        <p class="about-desc">「個人掛け捨て型福利厚生サービス」という独自の仕組みにより、個人賛助会員・協賛企業・地域社会の三者が互いに価値を生み出せる持続可能なモデルを構築しています。</p>
-        <p class="about-desc">指導現場への直接介入は行わず、あくまでも資金面・福利厚生面からのサポートに特化しています。</p>
+        <p class="about-desc">chofu6 booster clubは、調布地域に根ざした後援会活動を通じて、<strong>子どもたちのスポーツ環境を持続的に支える</strong>ために設立された法人です。</p>
+        <p class="about-desc"><strong>「個人掛け捨て型福利厚生サービス」</strong>という独自の仕組みにより、個人賛助会員・協賛企業・地域社会の三者が互いに価値を生み出せる持続可能なモデルを構築しています。</p>
+        <p class="about-desc">指導現場への直接介入は行わず、あくまでも<strong>資金面・福利厚生面からのサポート</strong>に特化しています。</p>
       </div>
     </div>
   </div>
@@ -818,20 +822,20 @@ document.addEventListener('keydown', function(e) {
 <!-- RELATED LINKS -->
 <div style="background:var(--bg-soft); border-top:1px solid var(--border);">
   <div style="max-width:var(--max-w); margin:0 auto; padding:48px var(--gutter);">
-    <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--layer-mid); margin-bottom:24px; display:flex; align-items:center; gap:12px;">
-      <span style="display:block;width:20px;height:2px;background:var(--layer-mid);"></span>Related Links
+    <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dark); margin-bottom:24px; display:flex; align-items:center; gap:12px;">
+      <span style="display:block;width:20px;height:2px;background:var(--accent);"></span>Related Links
     </div>
     <div style="display:flex; gap:14px; flex-wrap:wrap;">
       <a href="https://chofufa.com/" target="_blank" rel="noopener noreferrer"
         style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid var(--border); text-decoration:none; color:var(--ink); font-size:14px; font-weight:700; transition:border-color 0.15s;"
-        onmouseover="this.style.borderColor='var(--layer-mid)'"
+        onmouseover="this.style.borderColor='var(--accent)'"
         onmouseout="this.style.borderColor='var(--border)'">
         調布市サッカー協会
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.45;flex-shrink:0;" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
       <a href="https://chofufa.com/blog.html" target="_blank" rel="noopener noreferrer"
         style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid var(--border); text-decoration:none; color:var(--ink); font-size:14px; font-weight:700; transition:border-color 0.15s;"
-        onmouseover="this.style.borderColor='var(--layer-mid)'"
+        onmouseover="this.style.borderColor='var(--accent)'"
         onmouseout="this.style.borderColor='var(--border)'">
         協会規約
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.45;flex-shrink:0;" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -843,8 +847,8 @@ document.addEventListener('keydown', function(e) {
 <!-- LEGAL — light section, 明るく締める -->
 <div style="background:var(--bg-soft); border-top:1px solid var(--border);">
   <div style="max-width:var(--max-w); margin:0 auto; padding:64px var(--gutter);">
-    <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--layer-mid); margin-bottom:32px; display:flex; align-items:center; gap:12px;">
-      <span style="display:block;width:20px;height:2px;background:var(--layer-mid);"></span>Legal
+    <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dark); margin-bottom:32px; display:flex; align-items:center; gap:12px;">
+      <span style="display:block;width:20px;height:2px;background:var(--accent);"></span>Legal
     </div>
     <div style="display:flex; flex-direction:column; gap:12px;">
 
@@ -972,6 +976,7 @@ chofu6.booster.club@gmail.com
   <div class="footer-logo">chofu6 booster club</div>
   <div class="footer-copy">© 2026 一般社団法人調布六中サッカー部後援会</div>
 </footer>
+
 
 </body>
 </html>
