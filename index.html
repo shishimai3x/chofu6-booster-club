@@ -23,10 +23,10 @@
       /* --- 60% dominant backgrounds --- */
       --bg:          #ffffff;   /* light sections */
       --bg-soft:     #f4f7fb;   /* alternate light sections */
-      --bg-dark:     #07121f;   /* hero, member dark sections */
+      --bg-dark:     #0d2748;   /* hero, member — rich mid-navy with warmth */
 
       /* --- 30% secondary structure --- */
-      --layer:       #0c2040;   /* stat bar, sub-dark elements */
+      --layer:       #102f5c;   /* stat bar, sub-dark — lighter than bg-dark */
       --layer-mid:   #1a4fa0;   /* section tags, borders, mid UI */
 
       /* --- 10% accent (use sparingly!) --- */
@@ -37,7 +37,7 @@
       --ink:         #0d1b2e;   /* headings */
       --ink-2:       #4b5e73;   /* body copy */
       --ink-3:       #8a9bb0;   /* meta, labels */
-      --border:      #e3e8f0;
+      --border:      #b8c8dc;
 
       /* --- Legacy aliases (backward compat) --- */
       --navy:  var(--bg-dark);
@@ -67,7 +67,16 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: 'palt'; /* 日本語約物プロポーショナル詰め */
+    }
 
     /* HEADER
      * 輝度3段階: ロゴ(100%) > CTAボタン(青塗り) > ナビ(65%)
@@ -78,8 +87,8 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 0 var(--gutter); height: 72px;
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(7,18,31,0.97); backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+      background: rgba(13,39,72,0.97); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.18);
     }
     .logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
     .logo-mark {
@@ -88,10 +97,10 @@
       font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 12px; color: white; letter-spacing: -0.5px;
     }
     .logo-en { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.95); letter-spacing: 2px; text-transform: uppercase; line-height: 1; }
-    .logo-ja { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 5px; letter-spacing: 0.3px; }
+    .logo-ja { font-size: 11px; color: rgba(255,255,255,0.85); margin-top: 5px; letter-spacing: 0.3px; }
     nav { display: flex; align-items: center; gap: 40px; }
-    nav a { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; letter-spacing: 0.2px; }
-    nav a:hover { color: rgba(255,255,255,0.95); }
+    nav a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.82); text-decoration: none; transition: color 0.15s; letter-spacing: 0.2px; }
+    nav a:hover { color: rgba(255,255,255,1); }
     /* CTAボタン: 青塗りでヘッダー内で最も目立つ要素に */
     .nav-cta {
       color: var(--white) !important;
@@ -111,20 +120,20 @@
     }
     .hero-circle {
       position: absolute; right: -80px; top: 50%; transform: translateY(-50%);
-      width: 640px; height: 640px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.04);
+      width: 640px; height: 640px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.24);
     }
-    .hero-circle::before { content: ''; position: absolute; inset: 80px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.03); }
-    .hero-hline { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.03); }
-    .hero-vline { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.03); right: 36%; }
+    .hero-circle::before { content: ''; position: absolute; inset: 80px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.18); }
+    .hero-hline { position: absolute; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.20) 30%, rgba(255,255,255,0.20) 70%, transparent); }
+    .hero-vline { position: absolute; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.18) 20%, rgba(255,255,255,0.18) 80%, transparent); right: 36%; }
     .hero-content { position: relative; z-index: 2; padding: 140px var(--gutter) 80px; max-width: 760px; }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 16px;
-      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 40px;
+      font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 40px;
     }
-    .hero-eyebrow::before { content: ''; display: block; width: 36px; height: 1px; background: rgba(255,255,255,0.35); }
+    .hero-eyebrow::before { content: ''; display: block; width: 36px; height: 1px; background: rgba(255,255,255,0.50); }
     .hero h1 { font-size: clamp(52px, 7vw, 88px); font-weight: 900; line-height: 1.04; color: var(--white); margin-bottom: 32px; letter-spacing: -2px; }
     .hero h1 em { font-style: normal; color: var(--accent); }
-    .hero-sub { font-size: 17px; color: rgba(255,255,255,0.82); line-height: 2.0; margin-bottom: 60px; max-width: 500px; font-weight: 400; }
+    .hero-sub { font-size: 17px; color: rgba(255,255,255,0.92); line-height: 2.0; margin-bottom: 60px; max-width: 500px; font-weight: 400; }
     .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     /* CTA BUTTONS
      * プライマリ: 16px・padding大きめ・太字で存在感
@@ -133,21 +142,21 @@
     .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; font-weight: 700; font-size: 14px; text-decoration: none; transition: all 0.15s; letter-spacing: 0.3px; }
     .btn-solid { background: var(--cta); color: var(--white); }
     .btn-solid:hover { background: var(--cta-hover); }
-    .btn-outline { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
-    .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+    .btn-outline { border: 1px solid rgba(255,255,255,0.45); color: rgba(255,255,255,0.88); }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.85); color: var(--white); }
 
     /* STAT BAR */
-    .stat-bar { background: var(--blue); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .stat-bar { background: var(--blue); border-top: 1px solid rgba(255,255,255,0.22); border-bottom: 1px solid rgba(255,255,255,0.22); }
     .stat-bar-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); display: flex; }
-    .stat-item { flex: 1; padding: 36px 44px; border-right: 1px solid rgba(255,255,255,0.05); }
+    .stat-item { flex: 1; padding: 36px 44px; border-right: 1px solid rgba(255,255,255,0.22); }
     .stat-item:last-child { border-right: none; }
     .stat-num { font-family: 'Montserrat', sans-serif; font-size: 48px; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 8px; letter-spacing: -2px; }
     .stat-num span { font-size: 16px; color: var(--accent); margin-left: 2px; font-weight: 500; letter-spacing: 0; }
-    .stat-label { font-size: 12px; color: rgba(255,255,255,0.60); letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,0.80); letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
 
     /* SECTIONS */
     .section { padding: var(--section-gap) var(--gutter); max-width: var(--max-w); margin: 0 auto; }
-    .section-tag { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--mid); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .section-tag { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--mid); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
     .section-tag::before { content: ''; display: block; width: 24px; height: 1px; background: currentColor; }
     .section-title { font-size: clamp(36px, 4.5vw, 56px); font-weight: 900; line-height: 1.1; color: var(--navy); letter-spacing: -1.5px; margin-bottom: 20px; }
     .section-lead { font-size: 16px; color: #354555; line-height: 2.1; max-width: 560px; font-weight: 400; }
@@ -158,63 +167,65 @@
     .merit-item { display: flex; align-items: flex-start; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--border); transition: padding-left 0.2s; }
     .merit-item:first-child { border-top: 1px solid var(--border); }
     .merit-item:hover { padding-left: 6px; }
-    .merit-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; opacity: 0.7; }
+    .merit-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; opacity: 0.9; }
     .merit-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
     .merit-text { font-size: 14px; color: #354555; line-height: 1.9; font-weight: 400; }
 
-    .flow-card { background: var(--navy); padding: 44px; }
-    .flow-card-title { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.45); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 36px; font-family: 'Montserrat', sans-serif; }
+    .flow-card { background: #13355f; padding: 44px; }
+    .flow-card-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.68); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 36px; font-family: 'Montserrat', sans-serif; }
     .flow-step { display: flex; gap: 20px; }
     .flow-step-left { display: flex; flex-direction: column; align-items: center; }
-    .flow-num { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 10px; color: rgba(255,255,255,0.45); flex-shrink: 0; }
-    .flow-connector { width: 1px; flex: 1; min-height: 24px; background: rgba(255,255,255,0.06); margin: 6px 0; }
+    .flow-num { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.50); display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; color: rgba(255,255,255,0.85); flex-shrink: 0; }
+    .flow-connector { width: 1px; flex: 1; min-height: 24px; background: rgba(255,255,255,0.28); margin: 6px 0; }
     .flow-step:last-child .flow-connector { display: none; }
     .flow-body { padding: 2px 0 28px; }
     .flow-step:last-child .flow-body { padding-bottom: 0; }
     .flow-step-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
-    .flow-step-text { font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.9; font-weight: 400; }
+    .flow-step-text { font-size: 14px; color: rgba(255,255,255,0.88); line-height: 1.9; font-weight: 400; }
 
     /* MEMBER */
     .member-wrapper { background: var(--navy); position: relative; overflow: hidden; }
-    .member-section .section-tag { color: rgba(255,255,255,0.55); }
+    .member-section .section-tag { color: rgba(255,255,255,0.78); }
     .member-section .section-title { color: var(--white); }
-    .member-section .section-lead { color: rgba(255,255,255,0.80); }
-    .benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 56px; background: rgba(255,255,255,0.06); }
-    .benefit-card { background: var(--navy); padding: 40px 36px; transition: background 0.15s; }
-    .benefit-card:hover { background: rgba(255,255,255,0.03); }
-    .benefit-num { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 3px; margin-bottom: 20px; }
+    .member-section .section-lead { color: rgba(255,255,255,0.92); }
+    .benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 56px; background: rgba(255,255,255,0.24); }
+    .benefit-card { background: #13355f; padding: 40px 36px; transition: background 0.15s; border-radius: 4px; }
+    .benefit-card:hover { background: #183d6e; }
+    .benefit-num { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.58); letter-spacing: 3px; margin-bottom: 20px; }
     .benefit-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 10px; line-height: 1.45; }
-    .benefit-text { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 2; font-weight: 400; }
+    .benefit-text { font-size: 14px; color: rgba(255,255,255,0.88); line-height: 2; font-weight: 400; }
     .member-cta-area { margin-top: 56px; display: flex; align-items: center; gap: 28px; }
-    .member-cta-note { font-size: 13px; color: rgba(255,255,255,0.55); }
+    .member-cta-note { font-size: 13px; color: rgba(255,255,255,0.75); }
 
     /* ABOUT */
     .about-wrapper { background: var(--light); }
     .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
     .about-visual { background: var(--navy); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-    .pitch-svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.1; }
+    .pitch-svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.42; }
     .about-visual-inner { position: relative; z-index: 1; text-align: center; }
-    .about-visual-en { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 5px; color: rgba(255,255,255,0.45); text-transform: uppercase; margin-bottom: 12px; }
+    .about-visual-en { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 5px; color: rgba(255,255,255,0.68); text-transform: uppercase; margin-bottom: 12px; }
     .about-visual-ja { font-size: 22px; font-weight: 900; color: var(--white); line-height: 1.6; }
     .about-desc { font-size: 15px; color: #354555; line-height: 2.1; margin-bottom: 16px; font-weight: 400; }
     .about-desc:last-child { margin-bottom: 0; }
 
-    /* CONTACT */
-    .contact-wrapper { background: var(--white); }
+    /* CONTACT — dark CTA block */
+    .contact-wrapper { background: var(--bg-dark); }
     .contact-inner { text-align: center; }
-    .contact-email-link { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 4px; transition: border-color 0.15s; }
-    .contact-email-link:hover { border-color: var(--navy); }
-    .social-row { display: flex; justify-content: center; gap: 8px; margin-top: 24px; position: relative; z-index: 1; }
-    .social-pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 11px; font-weight: 500; text-decoration: none; transition: opacity 0.15s; opacity: 0.6; }
-    .social-pill:hover { opacity: 1; }
-    .soc-ig { background: #c13584; color: white; }
-    .soc-fb { background: #1877f2; color: white; }
-    .soc-yt { background: #ff0000; color: white; }
+    .contact-inner .section-tag { color: rgba(255,255,255,0.70); justify-content: center; }
+    .contact-inner .section-title { color: var(--white); }
+    .contact-inner .section-lead { color: rgba(255,255,255,0.80); margin: 0 auto; }
+    .contact-form-card { background: #fff; padding: 48px; margin-top: 52px; max-width: 640px; margin-left: auto; margin-right: auto; }
+    .social-row { display: flex; justify-content: center; gap: 12px; margin-top: 24px; position: relative; z-index: 1; flex-wrap: wrap; }
+    .social-pill { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid rgba(255,255,255,0.30); color: rgba(255,255,255,0.88); background: transparent; transition: border-color 0.15s, background 0.15s; letter-spacing: 0.2px; }
+    .social-pill:hover { border-color: rgba(255,255,255,0.70); background: rgba(255,255,255,0.08); }
+    /* SNS block inside dark contact */
+    .contact-sns { margin-top: 52px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.15); text-align: center; }
+    .contact-sns-label { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 3px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 700; margin-bottom: 20px; }
 
     /* FOOTER */
-    footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.05); padding: 32px var(--gutter); display: flex; align-items: center; justify-content: space-between; }
-    .footer-logo { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; color: rgba(255,255,255,0.22); letter-spacing: 2px; text-transform: uppercase; }
-    .footer-copy { font-size: 10px; color: rgba(255,255,255,0.14); letter-spacing: 0.5px; }
+    footer { background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.22); padding: 32px var(--gutter); display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; color: rgba(255,255,255,0.88); letter-spacing: 2px; text-transform: uppercase; }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.72); letter-spacing: 0.5px; }
 
     /* ============================================================
      *  RESPONSIVE — Desktop First
@@ -223,45 +234,98 @@
 
     /* --- Tablet landscape (≤1024px) --- */
     @media (max-width: 1024px) {
-      :root {
-        --gutter: 40px;
-        --section-gap: 88px;
-      }
-      /* .corporate-grid, .about-inner → 1 column */
-      /* .benefits-grid → 2 columns (already responsive) */
+      :root { --gutter: 40px; --section-gap: 88px; }
+      .corporate-grid { gap: 48px; }
     }
 
     /* --- Tablet portrait (≤768px) --- */
     @media (max-width: 768px) {
-      :root {
-        --gutter: 24px;
-        --section-gap: 72px;
-      }
+      :root { --gutter: 24px; --section-gap: 72px; }
+
+      /* レイアウト */
       header { padding: 0 var(--gutter); }
-      nav { display: none; } /* → hamburger menu */
+      nav { display: none; }
       .section { padding: var(--section-gap) var(--gutter); }
       .corporate-grid { grid-template-columns: 1fr; gap: 40px; }
-      .about-inner { grid-template-columns: 1fr; gap: 40px; }
+      .about-inner { grid-template-columns: 1fr; gap: 32px; }
       .benefits-grid { grid-template-columns: 1fr; }
       .stat-bar-inner { flex-wrap: wrap; }
-      .stat-item { min-width: 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
-      .hero h1 { font-size: clamp(40px, 10vw, 64px); }
-      .section-title { font-size: clamp(28px, 7vw, 44px); }
+      .stat-item { min-width: 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
       footer { flex-direction: column; gap: 12px; text-align: center; }
+      .contact-form-card { padding: 32px 24px; }
+      .member-cta-area { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+      /* ヘッダー */
+      .logo-en { font-size: 12px; }
+      .logo-ja { font-size: 10px; }
+
+      /* ヒーロー */
+      .hero h1 { font-size: clamp(38px, 9vw, 60px); letter-spacing: -1.5px; }
+      .hero-sub { font-size: 15px; line-height: 1.9; }
+      .hero-eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 28px; }
+
+      /* セクション見出し */
+      .section-title { font-size: clamp(28px, 6.5vw, 44px); letter-spacing: -1px; }
+      .section-lead { font-size: 15px; }
+      .section-tag { font-size: 11px; letter-spacing: 3px; }
+
+      /* コンテンツ */
+      .stat-num { font-size: 36px; letter-spacing: -1px; }
+      .stat-label { font-size: 11px; letter-spacing: 1px; }
+      .stat-item { padding: 28px 24px; }
+      .merit-title { font-size: 14px; }
+      .merit-text { font-size: 13px; }
+      .benefit-title { font-size: 16px; }
+      .benefit-text { font-size: 13px; }
+      .about-desc { font-size: 14px; }
+      .about-visual-ja { font-size: 18px; }
+      .flow-step-title { font-size: 13px; }
+      .flow-step-text { font-size: 13px; }
+      .flow-card { padding: 32px 28px; }
     }
 
     /* --- Mobile (≤480px) --- */
     @media (max-width: 480px) {
-      :root {
-        --gutter: 20px;
-        --section-gap: 60px;
-      }
-      .hero-content { padding: 120px var(--gutter) 60px; }
-      .hero h1 { font-size: clamp(36px, 12vw, 52px); letter-spacing: -1px; }
+      :root { --gutter: 20px; --section-gap: 60px; }
+
+      /* レイアウト */
+      .hero-content { padding: 112px var(--gutter) 56px; }
       .stat-item { min-width: 100%; }
-      .member-cta-area { flex-direction: column; align-items: flex-start; }
       .hero-actions { flex-direction: column; }
-      .btn { width: 100%; justify-content: center; }
+      .btn { width: 100%; justify-content: center; padding: 15px 24px; }
+      .social-pill { padding: 10px 20px; font-size: 12px; }
+      .contact-form-card { padding: 24px 16px; }
+      .benefit-card { padding: 28px 20px; }
+      footer { padding: 24px var(--gutter); }
+
+      /* ヒーロー */
+      .hero h1 { font-size: clamp(34px, 11vw, 48px); letter-spacing: -1px; line-height: 1.1; }
+      .hero-sub { font-size: 14px; line-height: 1.85; margin-bottom: 40px; }
+      .hero-eyebrow { font-size: 9px; letter-spacing: 2.5px; margin-bottom: 24px; }
+
+      /* セクション見出し */
+      .section-title { font-size: clamp(24px, 8vw, 36px); letter-spacing: -0.5px; margin-bottom: 14px; }
+      .section-lead { font-size: 14px; line-height: 2.0; }
+      .section-tag { font-size: 10px; letter-spacing: 2.5px; margin-bottom: 16px; }
+
+      /* コンテンツ */
+      .stat-num { font-size: 32px; }
+      .stat-label { font-size: 10px; }
+      .stat-item { padding: 22px 20px; }
+      .merit-title { font-size: 14px; }
+      .merit-text { font-size: 13px; line-height: 1.8; }
+      .benefit-title { font-size: 15px; }
+      .benefit-text { font-size: 13px; }
+      .benefit-num { font-size: 10px; }
+      .about-desc { font-size: 13px; line-height: 2.0; }
+      .about-visual-ja { font-size: 16px; }
+      .flow-step-title { font-size: 13px; }
+      .flow-step-text { font-size: 13px; line-height: 1.8; }
+      .flow-card { padding: 24px 20px; }
+      .flow-num { width: 22px; height: 22px; font-size: 10px; }
+      .member-cta-note { font-size: 12px; }
+      .footer-logo { font-size: 11px; }
+      .footer-copy { font-size: 11px; }
     }
   </style>
 </head>
@@ -449,21 +513,27 @@ document.addEventListener('keydown', function(e) {
       <div>
         <ul class="merit-list">
           <li class="merit-item">
-            <div class="merit-icon">🤝</div>
+            <div class="merit-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mid);" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
             <div>
               <div class="merit-title">地域貢献としての認知向上</div>
               <p class="merit-text">調布地域に根ざした後援会活動を通じ、地元に貢献する企業としてのブランドイメージを構築できます。</p>
             </div>
           </li>
           <li class="merit-item">
-            <div class="merit-icon">📣</div>
+            <div class="merit-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mid);" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
             <div>
               <div class="merit-title">賛助会員への直接リーチ</div>
               <p class="merit-text">会員限定の割引・特典という形で、貴社サービスを継続的に使ってもらえる接点を持てます。</p>
             </div>
           </li>
           <li class="merit-item">
-            <div class="merit-icon">💼</div>
+            <div class="merit-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mid);" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+            </div>
             <div>
               <div class="merit-title">福利厚生パートナーとしての実績</div>
               <p class="merit-text">「個人掛け捨て型福利厚生」という新しいCSRの形への参加実績として活用できます。</p>
@@ -596,11 +666,11 @@ document.addEventListener('keydown', function(e) {
 <!-- CONTACT -->
 <div class="contact-wrapper" id="contact">
   <div class="section contact-inner">
-    <div class="section-tag" style="justify-content:center;">Contact</div>
+    <div class="section-tag">Contact</div>
     <h2 class="section-title">参加・お問い合わせ</h2>
-    <p class="section-lead" style="margin:0 auto; text-align:center;">協賛・入会・その他のご質問はお気軽にどうぞ。<br>通常2〜3営業日以内にご返信いたします。</p>
+    <p class="section-lead">協賛・入会・その他のご質問はお気軽にどうぞ。<br>通常2〜3営業日以内にご返信いたします。</p>
 
-    <div style="max-width:640px; margin:52px auto 0;">
+    <div class="contact-form-card">
       <!-- Success message (hidden by default) -->
       <div id="form-success" style="display:none; background:#eef8f0; border:1px solid #6fcf97; border-radius:4px; padding:32px; text-align:center; margin-bottom:32px;">
         <div style="font-size:32px; margin-bottom:12px;">✓</div>
@@ -633,7 +703,7 @@ document.addEventListener('keydown', function(e) {
             お名前 <span style="color:#e53e3e;">*</span>
           </label>
           <input type="text" name="name" required placeholder="山田 太郎"
-            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:16px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
             onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
         </div>
 
@@ -643,7 +713,7 @@ document.addEventListener('keydown', function(e) {
             会社名・団体名 <span style="font-size:11px; font-weight:400; color:#94a3b8;">任意</span>
           </label>
           <input type="text" name="company" placeholder="株式会社〇〇"
-            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:16px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
             onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
         </div>
 
@@ -653,7 +723,7 @@ document.addEventListener('keydown', function(e) {
             電話番号 <span style="font-size:11px; font-weight:400; color:#94a3b8;">任意</span>
           </label>
           <input type="tel" name="phone" placeholder="090-0000-0000"
-            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:16px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
             onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
         </div>
 
@@ -663,7 +733,7 @@ document.addEventListener('keydown', function(e) {
             メールアドレス <span style="color:#e53e3e;">*</span>
           </label>
           <input type="email" name="email" required placeholder="example@email.com"
-            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:16px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; transition:border-color 0.15s;"
             onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'">
         </div>
 
@@ -673,27 +743,37 @@ document.addEventListener('keydown', function(e) {
             お問い合わせ内容 <span style="color:#e53e3e;">*</span>
           </label>
           <textarea name="message" required rows="6" placeholder="ご質問・ご要望をご記入ください。"
-            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:15px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; resize:vertical; line-height:1.7; transition:border-color 0.15s;"
+            style="width:100%; padding:13px 16px; border:1.5px solid #dce7f9; border-radius:4px; font-size:16px; font-family:'Noto Sans JP',sans-serif; color:#1e293b; background:#fff; outline:none; resize:vertical; line-height:1.7; transition:border-color 0.15s;"
             onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dce7f9'"></textarea>
         </div>
 
         <!-- Submit -->
         <button type="submit" id="submit-btn"
-          style="width:100%; padding:18px; background:var(--cta); color:#fff; border:none; border-radius:4px; font-size:15px; font-weight:700; font-family:'Noto Sans JP',sans-serif; cursor:pointer; transition:background 0.15s; letter-spacing:0.5px;"
-          onmouseover="this.style.background='var(--cta-hover)'" onmouseout="this.style.background='var(--cta)'">>
+          style="width:100%; padding:18px; background:var(--cta); color:#fff; border:none; border-radius:4px; font-size:16px; font-weight:700; font-family:'Noto Sans JP',sans-serif; cursor:pointer; transition:background 0.15s; letter-spacing:0.5px;"
+          onmouseover="this.style.background='var(--cta-hover)'" onmouseout="this.style.background='var(--cta)'">
           送信する →
         </button>
         <div id="form-error" style="display:none; margin-top:14px; text-align:center; font-size:13px; color:#e53e3e;"></div>
       </form>
 
-      <!-- SNS -->
-      <div style="margin-top:40px; padding-top:32px; border-top:1px solid #e8f0fc; text-align:center;">
-        <div style="font-size:12px; color:#94a3b8; margin-bottom:16px;">SNSでもご確認いただけます</div>
-        <div class="social-row" style="justify-content:center;">
-          <a href="https://www.instagram.com/chofu6_booster_club" target="_blank" class="social-pill soc-ig">📷 Instagram</a>
-          <a href="https://www.facebook.com/share/1UNtbMaQPu/" target="_blank" class="social-pill soc-fb">Facebook</a>
-          <a href="https://www.youtube.com/@chofu6boosterclub" target="_blank" class="social-pill soc-yt">▶ YouTube</a>
-        </div>
+    </div><!-- /contact-form-card -->
+
+    <!-- SNS — dark background上でアウトライン -->
+    <div class="contact-sns">
+      <div class="contact-sns-label">Follow us</div>
+      <div class="social-row">
+        <a href="https://www.instagram.com/chofu6_booster_club" target="_blank" class="social-pill soc-ig">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Instagram
+        </a>
+        <a href="https://www.facebook.com/share/1UNtbMaQPu/" target="_blank" class="social-pill soc-fb">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <a href="https://www.youtube.com/@chofu6boosterclub" target="_blank" class="social-pill soc-yt">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          YouTube
+        </a>
       </div>
     </div>
   </div>
@@ -736,47 +816,45 @@ document.addEventListener('keydown', function(e) {
 </script>
 
 <!-- RELATED LINKS -->
-<div style="background:#f0f6ff; border-top:1px solid #e2eaf6;">
-  <div style="max-width:var(--max-w); margin:0 auto; padding:52px var(--gutter);">
-    <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#1a4fa0; margin-bottom:28px; display:flex; align-items:center; gap:10px;">
-      <span style="display:block;width:20px;height:2px;background:#1a4fa0;"></span>Related Links
+<div style="background:var(--bg-soft); border-top:1px solid var(--border);">
+  <div style="max-width:var(--max-w); margin:0 auto; padding:48px var(--gutter);">
+    <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--layer-mid); margin-bottom:24px; display:flex; align-items:center; gap:12px;">
+      <span style="display:block;width:20px;height:2px;background:var(--layer-mid);"></span>Related Links
     </div>
-    <div style="display:flex; gap:16px; flex-wrap:wrap;">
+    <div style="display:flex; gap:14px; flex-wrap:wrap;">
       <a href="https://chofufa.com/" target="_blank" rel="noopener noreferrer"
-        style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid #dce7f9; border-radius:4px; text-decoration:none; color:#0e2d5e; font-size:14px; font-weight:700; transition:box-shadow 0.2s, border-color 0.2s;"
-        onmouseover="this.style.boxShadow='0 4px 16px rgba(14,45,94,0.1)';this.style.borderColor='#2563eb'"
-        onmouseout="this.style.boxShadow='';this.style.borderColor='#dce7f9'">
-        <span style="font-size:18px;">⚽</span>
+        style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid var(--border); text-decoration:none; color:var(--ink); font-size:14px; font-weight:700; transition:border-color 0.15s;"
+        onmouseover="this.style.borderColor='var(--layer-mid)'"
+        onmouseout="this.style.borderColor='var(--border)'">
         調布市サッカー協会
-        <span style="font-size:11px; color:#94a3b8; margin-left:2px;">↗</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.45;flex-shrink:0;" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
       <a href="https://chofufa.com/blog.html" target="_blank" rel="noopener noreferrer"
-        style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid #dce7f9; border-radius:4px; text-decoration:none; color:#0e2d5e; font-size:14px; font-weight:700; transition:box-shadow 0.2s, border-color 0.2s;"
-        onmouseover="this.style.boxShadow='0 4px 16px rgba(14,45,94,0.1)';this.style.borderColor='#2563eb'"
-        onmouseout="this.style.boxShadow='';this.style.borderColor='#dce7f9'">
-        <span style="font-size:18px;">📄</span>
+        style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid var(--border); text-decoration:none; color:var(--ink); font-size:14px; font-weight:700; transition:border-color 0.15s;"
+        onmouseover="this.style.borderColor='var(--layer-mid)'"
+        onmouseout="this.style.borderColor='var(--border)'">
         協会規約
-        <span style="font-size:11px; color:#94a3b8; margin-left:2px;">↗</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.45;flex-shrink:0;" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
   </div>
 </div>
 
-<!-- LEGAL -->
-<div style="background:#f8faff; border-top:1px solid #e2eaf6;">
+<!-- LEGAL — light section, 明るく締める -->
+<div style="background:var(--bg-soft); border-top:1px solid var(--border);">
   <div style="max-width:var(--max-w); margin:0 auto; padding:64px var(--gutter);">
-    <div style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#1a4fa0; margin-bottom:32px; display:flex; align-items:center; gap:10px;">
-      <span style="display:block;width:20px;height:2px;background:#1a4fa0;"></span>Legal
+    <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--layer-mid); margin-bottom:32px; display:flex; align-items:center; gap:12px;">
+      <span style="display:block;width:20px;height:2px;background:var(--layer-mid);"></span>Legal
     </div>
     <div style="display:flex; flex-direction:column; gap:12px;">
 
       <!-- 会員規約 -->
-      <details style="background:#fff; border:1px solid #e2eaf6; border-radius:4px; overflow:hidden;">
-        <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:#0e2d5e; display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
+      <details style="background:#fff; border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+        <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:var(--ink); display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
           会員規約
-          <span style="font-size:20px; color:#1a4fa0; transition:transform 0.2s;" class="toggle-icon">＋</span>
+          <span style="font-size:20px; color:var(--cta); transition:transform 0.2s;" class="toggle-icon">＋</span>
         </summary>
-        <div style="padding:0 28px 32px; border-top:1px solid #e2eaf6;">
+        <div style="padding:0 28px 32px; border-top:1px solid var(--border);">
           <div style="font-size:13px; line-height:2; color:#4a5568; white-space:pre-wrap; margin-top:24px; max-height:480px; overflow-y:auto; padding-right:8px;">
 <strong>第1章　総則</strong>
 
@@ -839,12 +917,12 @@ document.addEventListener('keydown', function(e) {
       </details>
 
       <!-- 個人情報保護方針 -->
-      <details style="background:#fff; border:1px solid #e2eaf6; border-radius:4px; overflow:hidden;">
-        <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:#0e2d5e; display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
+      <details style="background:#fff; border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+        <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:var(--ink); display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
           個人情報保護方針
-          <span style="font-size:20px; color:#1a4fa0;">＋</span>
+          <span style="font-size:20px; color:var(--cta);">＋</span>
         </summary>
-        <div style="padding:0 28px 32px; border-top:1px solid #e2eaf6;">
+        <div style="padding:0 28px 32px; border-top:1px solid var(--border);">
           <div style="font-size:13px; line-height:2; color:#4a5568; white-space:pre-wrap; margin-top:24px; max-height:480px; overflow-y:auto; padding-right:8px;">
 一般社団法人調布六中サッカー部後援会（以下、「当社」といいます。）は、個人情報の重要性を認識し、また社会的責務であるプライバシーの保護について以下の通り、個人情報保護方針に基づいて、個人情報の保護に努めます。
 
@@ -892,7 +970,7 @@ chofu6.booster.club@gmail.com
 
 <footer>
   <div class="footer-logo">chofu6 booster club</div>
-  <div class="footer-copy">© 2025 一般社団法人調布六中サッカー部後援会</div>
+  <div class="footer-copy">© 2026 一般社団法人調布六中サッカー部後援会</div>
 </footer>
 
 </body>
