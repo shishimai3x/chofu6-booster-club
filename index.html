@@ -183,6 +183,8 @@
     .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; font-weight: 700; font-size: 14px; text-decoration: none; transition: all 0.15s; letter-spacing: 0.3px; }
     .btn-solid { background: var(--cta); color: var(--white); }
     .btn-solid:hover { background: var(--cta-hover); }
+    .btn-gold { background: var(--accent); color: #0d2748; }
+    .btn-gold:hover { background: #d6b661; }
     .btn-outline { border: 1px solid var(--accent); color: var(--accent); }
     .btn-outline:hover { background: var(--accent-dim); color: var(--accent); }
 
@@ -266,7 +268,16 @@
     .contact-inner .section-tag { color: rgba(255,255,255,0.70); justify-content: center; }
     .contact-inner .section-title { color: var(--white); }
     .contact-inner .section-lead { color: rgba(255,255,255,0.80); margin: 0 auto; }
-    .contact-form-card { background: #fff; padding: 48px; margin-top: 52px; max-width: 640px; margin-left: auto; margin-right: auto; border-top: 3px solid var(--accent); }
+    /* メール直通導線 — クライアント要件「メールアドレスのみ掲載でOK」に基づく主導線。フォームは付加価値 */
+    .contact-email { margin-top: 40px; }
+    .contact-email-label { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.60); margin-bottom: 14px; }
+    .contact-email-row { display: inline-flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; border: 1px solid rgba(255,255,255,0.28); background: rgba(255,255,255,0.05); padding: 16px 24px; }
+    .contact-email-link { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(15px, 4.2vw, 21px); color: var(--accent); text-decoration: none; letter-spacing: 0.5px; word-break: break-all; }
+    .contact-email-link:hover { text-decoration: underline; }
+    .contact-email-copy { border: 1px solid rgba(255,255,255,0.30); background: transparent; color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 600; font-family: 'Noto Sans JP', sans-serif; padding: 8px 16px; cursor: pointer; transition: border-color 0.15s, background 0.15s; white-space: nowrap; }
+    .contact-email-copy:hover { border-color: rgba(255,255,255,0.70); background: rgba(255,255,255,0.08); }
+    .contact-form-note { margin-top: 44px; font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 1px; }
+    .contact-form-card { background: #fff; padding: 48px; margin-top: 16px; max-width: 640px; margin-left: auto; margin-right: auto; border-top: 3px solid var(--accent); }
     .social-row { display: flex; justify-content: center; gap: 12px; margin-top: 24px; position: relative; z-index: 1; flex-wrap: wrap; }
     .social-pill { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid rgba(255,255,255,0.30); color: rgba(255,255,255,0.88); background: transparent; transition: border-color 0.15s, background 0.15s; letter-spacing: 0.2px; }
     .social-pill:hover { border-color: rgba(255,255,255,0.70); background: rgba(255,255,255,0.08); }
@@ -819,6 +830,10 @@ document.addEventListener('keydown', function(e) {
       </div>
     </div>
     <div class="member-cta-area">
+      <!-- TODO(納品前): クライアントが準備中のクレカ決済リンクが届いたら、下のコメントを外して href を差し替える。
+           チラシ用QRコードも同じURLから生成する
+      <a href="https://PAYMENT-LINK" target="_blank" rel="noopener noreferrer" class="btn btn-gold">オンラインで入会する（クレジットカード決済）</a>
+      -->
       <a href="#contact" class="btn btn-solid">入会についてお問い合わせ</a>
       <p class="member-cta-note">入会・ご寄付の詳細はお気軽にどうぞ。</p>
     </div>
@@ -891,6 +906,17 @@ document.addEventListener('keydown', function(e) {
     <h2 class="section-title">参加・お問い合わせ</h2>
     <p class="section-lead">協賛・入会・その他のご質問はお気軽にどうぞ。<br>通常2〜3営業日以内にご返信いたします。</p>
 
+    <!-- メール直通(主導線) -->
+    <div class="contact-email">
+      <div class="contact-email-label">Email</div>
+      <div class="contact-email-row">
+        <a class="contact-email-link" href="mailto:chofu6.booster.club@gmail.com">chofu6.booster.club@gmail.com</a>
+        <button type="button" class="contact-email-copy" onclick="copyContactEmail(this)">コピー</button>
+      </div>
+    </div>
+
+    <p class="contact-form-note">下記フォームからもお問い合わせいただけます</p>
+
     <div class="contact-form-card">
       <!-- Success message (hidden by default) -->
       <div id="form-success" style="display:none; background:#eef8f0; border:1px solid #6fcf97; border-radius:4px; padding:32px; text-align:center; margin-bottom:32px;">
@@ -899,6 +925,8 @@ document.addEventListener('keydown', function(e) {
         <div style="font-size:14px; color:#4a5568;">内容を確認のうえ、担当者よりご連絡いたします。</div>
       </div>
 
+      <!-- TODO(納品前): Formspreeアカウントをクライアント名義(chofu6.booster.club@gmail.com)で作成してもらい、
+           発行されたフォームIDで下の YOUR_FORM_ID を差し替える(無料プランで月50件まで受信可) -->
       <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
         <!-- お問い合わせ種別 -->
         <div style="margin-bottom:22px;">
@@ -1001,6 +1029,34 @@ document.addEventListener('keydown', function(e) {
 </div>
 
 <script>
+// メールアドレスのコピー（コンタクトセクションの「コピー」ボタン）
+function copyContactEmail(btn) {
+  const email = 'chofu6.booster.club@gmail.com';
+  const done = function() {
+    btn.textContent = 'コピーしました ✓';
+    btn.disabled = true;
+    setTimeout(function() { btn.textContent = 'コピー'; btn.disabled = false; }, 2000);
+  };
+  const legacyCopy = function() {
+    const ta = document.createElement('textarea');
+    ta.value = email;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      if (document.execCommand('copy')) done();
+    } catch (e) { /* コピー不可環境ではボタン表示を変えない */ }
+    document.body.removeChild(ta);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(done).catch(legacyCopy);
+  } else {
+    legacyCopy();
+  }
+}
+
 (function() {
   const form = document.getElementById('contact-form');
   if (!form) return;
@@ -1027,7 +1083,7 @@ document.addEventListener('keydown', function(e) {
         throw new Error(data.error || '送信に失敗しました');
       }
     } catch (err) {
-      errEl.textContent = err.message || '送信中にエラーが発生しました。時間をおいて再度お試しください。';
+      errEl.textContent = '送信に失敗しました。お手数ですが chofu6.booster.club@gmail.com 宛にメールでお問い合わせください。';
       errEl.style.display = 'block';
       btn.disabled = false;
       btn.textContent = '送信する →';
@@ -1036,31 +1092,6 @@ document.addEventListener('keydown', function(e) {
   });
 })();
 </script>
-
-<!-- RELATED LINKS -->
-<div style="background:var(--bg-soft); border-top:1px solid var(--border);">
-  <div style="max-width:var(--max-w); margin:0 auto; padding:48px var(--gutter);">
-    <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dark); margin-bottom:24px; display:flex; align-items:center; gap:12px;">
-      <span style="display:block;width:20px;height:2px;background:var(--accent);"></span>Related Links
-    </div>
-    <div style="display:flex; gap:14px; flex-wrap:wrap;">
-      <a href="https://chofufa.com/" target="_blank" rel="noopener noreferrer"
-        style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid var(--border); text-decoration:none; color:var(--ink); font-size:14px; font-weight:700; transition:border-color 0.15s;"
-        onmouseover="this.style.borderColor='var(--accent)'"
-        onmouseout="this.style.borderColor='var(--border)'">
-        調布市サッカー協会
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.45;flex-shrink:0;" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-      <a href="https://chofufa.com/blog.html" target="_blank" rel="noopener noreferrer"
-        style="display:inline-flex; align-items:center; gap:10px; padding:14px 24px; background:#fff; border:1px solid var(--border); text-decoration:none; color:var(--ink); font-size:14px; font-weight:700; transition:border-color 0.15s;"
-        onmouseover="this.style.borderColor='var(--accent)'"
-        onmouseout="this.style.borderColor='var(--border)'">
-        協会規約
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.45;flex-shrink:0;" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-    </div>
-  </div>
-</div>
 
 <!-- LEGAL — light section, 明るく締める -->
 <div style="background:var(--bg-soft); border-top:1px solid var(--border);">
