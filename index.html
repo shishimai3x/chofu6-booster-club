@@ -830,12 +830,10 @@ document.addEventListener('keydown', function(e) {
       </div>
     </div>
     <div class="member-cta-area">
-      <!-- TODO(納品前): クライアントが準備中のクレカ決済リンクが届いたら、下のコメントを外して href を差し替える。
-           チラシ用QRコードも同じURLから生成する
-      <a href="https://PAYMENT-LINK" target="_blank" rel="noopener noreferrer" class="btn btn-gold">オンラインで入会する（クレジットカード決済）</a>
-      -->
-      <a href="#contact" class="btn btn-solid">入会についてお問い合わせ</a>
-      <p class="member-cta-note">入会・ご寄付の詳細はお気軽にどうぞ。</p>
+      <!-- チラシ用QRコードはこの決済URLから生成する -->
+      <a href="https://scr.buscatch.net/web-entry/target?f=chofu6-fc" target="_blank" rel="noopener noreferrer" class="btn btn-gold">オンラインで入会する（クレジットカード決済）</a>
+      <a href="#contact" class="btn btn-outline">入会についてのご質問</a>
+      <p class="member-cta-note">個人賛助会員 年会費2,000円。決済は外部ページに移動します。</p>
     </div>
   </div>
 </div>
@@ -1094,7 +1092,7 @@ function copyContactEmail(btn) {
 </script>
 
 <!-- LEGAL — light section, 明るく締める -->
-<div style="background:var(--bg-soft); border-top:1px solid var(--border);">
+<div style="background:var(--bg-soft); border-top:1px solid var(--border);" id="legal">
   <div style="max-width:var(--max-w); margin:0 auto; padding:64px var(--gutter);">
     <div style="font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dark); margin-bottom:32px; display:flex; align-items:center; gap:12px;">
       <span style="display:block;width:20px;height:2px;background:var(--accent);"></span>Legal
@@ -1217,6 +1215,60 @@ chofu6.booster.club@gmail.com
         </div>
       </details>
 
+      <!-- 特定商取引法に基づく表記
+           TODO(納品前): 本番ドメイン確定後に「ホームページURL」を差し替える(クライアント原本はvercel.app表記だったため要すり合わせ) -->
+      <details style="background:#fff; border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+        <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:var(--ink); display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
+          特定商取引法に基づく表記
+          <span style="font-size:20px; color:var(--cta);" class="toggle-icon">＋</span>
+        </summary>
+        <div style="padding:0 28px 32px; border-top:1px solid var(--border);">
+          <div style="font-size:13px; line-height:2; color:#4a5568; white-space:pre-wrap; margin-top:24px; max-height:480px; overflow-y:auto; padding-right:8px;">
+<strong>事業者名</strong>
+一般社団法人調布六中サッカー部後援会
+
+<strong>代表責任者名</strong>
+代表理事　竹内義博
+
+<strong>所在地</strong>
+東京都新宿区四谷三丁目13番地SEABIRDビル２階
+
+<strong>メールアドレス</strong>
+chofu6.booster.club@gmail.com
+
+<strong>ホームページURL</strong>
+https://chofu6-booster-club.202505q.workers.dev/
+
+<strong>販売価格</strong>
+賛助会員　年会費
+（個人）2,000円
+
+<strong>商品代金以外の必要料金</strong>
+会費・寄付金のため、該当いたしません。
+なお、会員限定販売商品に関する購入については、別途ご費用が掛かることがございます。
+
+<strong>お届け時期</strong>
+会費・寄付金のため、該当いたしません。
+なお、会員限定販売商品に関する購入については、別途ご案内させていただきます。
+
+<strong>お支払方法</strong>
+オンラインクレジット決済のみ
+
+<strong>返品・交換・キャンセル等</strong>
+会費・寄付金のため、該当いたしません。
+なお、会員限定販売商品に関する購入については、別途ご案内させていただきます。
+
+<strong>返品期限</strong>
+会費・寄付金のため、該当いたしません。
+なお、会員限定販売商品に関する購入については、別途ご案内させていただきます。
+
+<strong>返品送料</strong>
+会費・寄付金のため、該当いたしません。
+なお、会員限定販売商品に関する購入については、別途ご案内させていただきます。
+          </div>
+        </div>
+      </details>
+
     </div>
   </div>
 </div>
@@ -1238,6 +1290,7 @@ chofu6.booster.club@gmail.com
       <a href="#member">賛助会員</a>
       <a href="#about">法人概要</a>
       <a href="#contact">お問い合わせ</a>
+      <a href="#legal">特定商取引法に基づく表記</a>
     </nav>
   </div>
   <div class="footer-bottom">
