@@ -626,13 +626,31 @@ function escHtml(s) {
 function newsImg(url, w) {
   return url + (url.includes('?') ? '&' : '?') + 'w=' + w + '&q=75&fm=webp';
 }
+// microCMSの「category」フィールドはコンテンツ参照(オブジェクト)で来るため名前だけ取り出す
+// 将来フィールドが単純な文字列に変わっても動くようフォールバックしておく
+function categoryName(item) {
+  const c = item.category;
+  if (!c) return '';
+  if (typeof c === 'string') return c;
+  if (typeof c === 'object' && c.name) return c.name;
+  return '';
+}
+// 専用の画像フィールドが無いため、本文(リッチテキスト)内の最初の画像をサムネイルとして自動抽出
+function firstImageUrl(html) {
+  if (!html) return null;
+  const m = html.match(/<img[^>]+src="([^"]+)"/i);
+  return m ? m[1] : null;
+}
+function thumbnailUrl(item) {
+  return (item.image && item.image.url) || firstImageUrl(item.content);
+}
 
 let _newsModalOpener = null;
 
 function openNewsModal(item) {
   const modal = document.getElementById('news-modal');
   const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
-  const category = item.category || '';
+  const category = categoryName(item);
 
   document.getElementById('modal-meta').innerHTML =
     `<span style="font-family:'Montserrat',sans-serif;font-size:13px;color:var(--accent-dark);font-weight:600;">${date}</span>` +
@@ -640,12 +658,13 @@ function openNewsModal(item) {
 
   document.getElementById('modal-title').textContent = item.title;
 
-  const imgUrl = item.image && item.image.url;
-  document.getElementById('modal-image').innerHTML = imgUrl
-    ? `<img src="${newsImg(imgUrl, 1200)}" alt="${escHtml(item.title)}" style="width:100%;border-radius:4px;display:block;">`
+  // 専用の画像フィールドがある場合のみヘッダー画像を表示（本文中の画像と重複表示しないため）
+  const dedicatedImgUrl = item.image && item.image.url;
+  document.getElementById('modal-image').innerHTML = dedicatedImgUrl
+    ? `<img src="${newsImg(dedicatedImgUrl, 1200)}" alt="${escHtml(item.title)}" style="width:100%;border-radius:4px;display:block;">`
     : '';
 
-  document.getElementById('modal-body').innerHTML = item.chofu6news || '';
+  document.getElementById('modal-body').innerHTML = item.content || '';
 
   _newsModalOpener = document.activeElement;
   modal.style.display = 'flex';
@@ -686,16 +705,16 @@ document.addEventListener('keydown', function(e) {
     }
     window._newsItems = data.contents;
 
-    const hasAnyImage = data.contents.some(item => item.image && item.image.url);
+    const hasAnyImage = data.contents.some(item => thumbnailUrl(item));
     if (hasAnyImage) {
       container.style.display = 'grid';
       container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
       container.style.gap = '24px';
       container.innerHTML = data.contents.map((item, i) => {
         const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
-        const category = item.category || '';
-        const imgUrl = item.image && item.image.url;
-        const hasBody = !!(item.chofu6news);
+        const category = categoryName(item);
+        const imgUrl = thumbnailUrl(item);
+        const hasBody = !!(item.content && item.content.trim());
         const imgHtml = imgUrl
           ? `<div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:4px 4px 0 0;background:#e8f0fc;"><img src="${newsImg(imgUrl, 640)}" alt="${escHtml(item.title)}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`
           : `<div style="width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#0e2d5e 0%,#1a4fa0 100%);border-radius:4px 4px 0 0;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:rgba(255,255,255,0.15);letter-spacing:2px;">NEWS</span></div>`;
@@ -718,9 +737,9 @@ document.addEventListener('keydown', function(e) {
     } else {
       container.innerHTML = data.contents.map((item, i) => {
         const date = new Date(item.publishedAt).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
-        const category = item.category || '';
+        const category = categoryName(item);
         const isLast = i === data.contents.length - 1;
-        const hasBody = !!(item.chofu6news);
+        const hasBody = !!(item.content && item.content.trim());
         const clickAttrs = hasBody
           ? `onclick="openNewsModal(window._newsItems[${i}])" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" role="button" tabindex="0" data-clickable aria-haspopup="dialog"`
           : '';
