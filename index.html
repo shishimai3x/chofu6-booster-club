@@ -8,16 +8,20 @@
   <meta name="theme-color" content="#0d2748">
 
   <!-- OGP / SNSシェア用
-       TODO(納品前): 本番ドメイン確定後、og:url と og:image を絶対URLで追加すること
-       og:image はクライアント提供の実写写真 or エンブレム入りOGP画像(1200x630)を用意して指定
-       例: <meta property="og:url" content="https://example.jp/">
-           <meta property="og:image" content="https://example.jp/images/ogp.jpg"> -->
+       og:image はブランド(紺×金+エンブレム)で作成したOGP専用画像(1200x630)。
+       クライアントから実写写真が届いたら差し替え検討可 -->
+  <link rel="canonical" href="https://chofu6booster.com/">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chofu6booster.com/">
   <meta property="og:site_name" content="chofu6 booster club">
   <meta property="og:title" content="chofu6 booster club | 一般社団法人調布六中サッカー部後援会">
   <meta property="og:description" content="個人掛け捨て型福利厚生サービスを通じて、調布から子どもたちのスポーツ環境を支える新しい仕組み。協賛企業・個人賛助会員を募集しています。">
+  <meta property="og:image" content="https://chofu6booster.com/images/ogp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://chofu6booster.com/images/ogp.jpg">
 
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -32,6 +36,8 @@
     "@type": "Organization",
     "name": "一般社団法人調布六中サッカー部後援会",
     "alternateName": "chofu6 booster club",
+    "url": "https://chofu6booster.com/",
+    "logo": "https://chofu6booster.com/images/logo.jpg",
     "email": "chofu6.booster.club@gmail.com",
     "sameAs": [
       "https://www.instagram.com/chofu6_booster_club",
@@ -1214,8 +1220,7 @@ chofu6.booster.club@gmail.com
         </div>
       </details>
 
-      <!-- 特定商取引法に基づく表記
-           TODO(納品前): 本番ドメイン確定後に「ホームページURL」を差し替える(クライアント原本はvercel.app表記だったため要すり合わせ) -->
+      <!-- 特定商取引法に基づく表記 -->
       <details style="background:#fff; border:1px solid var(--border); border-radius:4px; overflow:hidden;">
         <summary style="padding:20px 28px; cursor:pointer; font-weight:700; font-size:15px; color:var(--ink); display:flex; align-items:center; justify-content:space-between; list-style:none; user-select:none;">
           特定商取引法に基づく表記
@@ -1236,7 +1241,7 @@ chofu6.booster.club@gmail.com
 chofu6.booster.club@gmail.com
 
 <strong>ホームページURL</strong>
-https://chofu6-booster-club.202505q.workers.dev/
+https://chofu6booster.com/
 
 <strong>販売価格</strong>
 賛助会員　年会費
