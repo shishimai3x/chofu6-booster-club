@@ -174,10 +174,12 @@
     .hero-vline { position: absolute; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.18) 20%, rgba(255,255,255,0.18) 80%, transparent); right: 36%; }
     .hero-content { position: relative; z-index: 3; padding: 140px var(--gutter) 80px; max-width: 760px; }
     .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 16px;
+      display: inline-flex; align-items: center; flex-wrap: wrap; gap: 16px; row-gap: 6px;
       font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 40px;
     }
-    .hero-eyebrow::before { content: ''; display: block; width: 36px; height: 2px; background: var(--accent); }
+    .hero-eyebrow::before { content: ''; display: block; width: 36px; height: 2px; background: var(--accent); flex-shrink: 0; }
+    /* 検索エンジン・初見の訪問者の双方に正式名称を伝えるための併記（隠し要素ではなく可視テキスト） */
+    .hero-eyebrow-ja { font-family: 'Noto Sans JP', sans-serif; font-weight: 500; letter-spacing: 0.5px; text-transform: none; color: rgba(255,255,255,0.55); }
     .hero h1 { font-size: clamp(52px, 7vw, 88px); font-weight: 900; line-height: 1.04; color: var(--white); margin-bottom: 32px; letter-spacing: -2px; }
     .hero h1 em { font-style: normal; color: var(--accent); }
     .hero-sub { font-size: 17px; color: rgba(255,255,255,0.92); line-height: 2.0; margin-bottom: 60px; max-width: 500px; font-weight: 400; }
@@ -446,6 +448,7 @@
       .hero h1 { font-size: clamp(38px, 9vw, 60px); letter-spacing: -1.5px; }
       .hero-sub { font-size: 15px; line-height: 1.9; }
       .hero-eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 28px; }
+      .hero-eyebrow-ja { font-size: 11px; }
 
       /* セクション見出し */
       .section-title { font-size: clamp(28px, 6.5vw, 44px); letter-spacing: -1px; }
@@ -485,6 +488,7 @@
       .hero h1 { font-size: clamp(34px, 11vw, 48px); letter-spacing: -1px; line-height: 1.1; }
       .hero-sub { font-size: 14px; line-height: 1.85; margin-bottom: 40px; }
       .hero-eyebrow { font-size: 9px; letter-spacing: 2.5px; margin-bottom: 24px; }
+      .hero-eyebrow-ja { font-size: 10px; }
 
       /* セクション見出し */
       .section-title { font-size: clamp(24px, 8vw, 36px); letter-spacing: -0.5px; margin-bottom: 14px; }
@@ -570,10 +574,10 @@
   <div class="hero-hline" style="top:70%"></div>
   <div class="hero-vline"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Chofu6 Booster Club</div>
+    <div class="hero-eyebrow">Chofu6 Booster Club<span class="hero-eyebrow-ja">調布六中サッカー部後援会</span></div>
     <h1>地域の熱量を、<br>未来の<em>力</em>へ。</h1>
     <p class="hero-sub">
-      個人掛け捨て型福利厚生サービスを通じて、<br>
+      一般社団法人調布六中サッカー部後援会が、個人掛け捨て型福利厚生サービスを通じて、<br>
       調布から子どもたちのスポーツ環境を支える新しい仕組みです。
     </p>
     <div class="hero-actions">
